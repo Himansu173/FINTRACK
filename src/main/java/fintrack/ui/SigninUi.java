@@ -1,5 +1,6 @@
 package fintrack.ui;
+import javax.swing.*;
 
-public class SigninUi {
+public class SigninUi extends JPanel {
     
 }
