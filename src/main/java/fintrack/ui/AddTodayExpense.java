@@ -1,6 +1,9 @@
 package fintrack.ui;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -103,6 +106,28 @@ public class AddTodayExpense extends JPanel {
                 categoryComboBox.setSelectedItem("-- select --");
             }
         });
+        addButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                addButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                addButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
         add(addButton);
+        categoryComboBox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                categoryComboBox.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
     }
 }

@@ -1,4 +1,5 @@
 package fintrack.ui;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -12,6 +13,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AddFutureExpense extends JPanel {
     private JTextField amountField;
@@ -20,6 +23,7 @@ public class AddFutureExpense extends JPanel {
     private DefaultListModel<String> futureExpensesListModel;
     private JTable expensesTable;
     private DefaultTableModel tableModel;
+    private Calendar calendar;
 
     public AddFutureExpense() {
         setLayout(new BorderLayout());
@@ -37,7 +41,7 @@ public class AddFutureExpense extends JPanel {
         // Add components to the addExpensePanel
         addExpensePanel.add(new JLabel("Future Date:"));
         dateChooser = new JDateChooser();
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1); // Add 1 day to the current date
         dateChooser.setMinSelectableDate(calendar.getTime()); // Set minimum selectable date to tomorrow's date
         addExpensePanel.add(dateChooser);
@@ -58,7 +62,7 @@ public class AddFutureExpense extends JPanel {
         futureExpensesListModel = new DefaultListModel<>();
 
         // Add a button to submit the future expense
-        JButton submitButton = new JButton("Submit");
+        final JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -97,6 +101,28 @@ public class AddFutureExpense extends JPanel {
         });
 
         addExpensePanel.add(submitButton);
+        submitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                submitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                submitButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+        categoryComboBox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                categoryComboBox.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
 
         // Add addExpensePanel to the top section with a border
         add(addExpensePanel, BorderLayout.NORTH);

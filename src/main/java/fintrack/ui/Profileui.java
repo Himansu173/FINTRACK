@@ -1,5 +1,7 @@
 package fintrack.ui;
 
-public class Profileui {
+import javax.swing.JPanel;
+
+public class ProfileUi extends JPanel{
     
 }

@@ -1,4 +1,5 @@
 package fintrack.ui;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -9,6 +10,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.data.category.DefaultCategoryDataset;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -40,6 +44,17 @@ public class ExpenseTrend extends JPanel {
                 JComboBox<String> combo = (JComboBox<String>) e.getSource();
                 String selectedTimeRange = (String) combo.getSelectedItem();
                 updateChart(selectedTimeRange);
+            }
+        });
+        timeRangeComboBox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                timeRangeComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                timeRangeComboBox.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         });
 

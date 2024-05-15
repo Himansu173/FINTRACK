@@ -3,14 +3,13 @@ package fintrack.ui;
 import javax.swing.*;
 import java.awt.*;
 
-public class HomeUi {
-    public static JPanel HomeUiPanel() {
-        JPanel homePanel = new JPanel(new GridLayout(2, 2, 10, 10));
-        homePanel.setBackground(Color.GRAY);
-        homePanel.add(new AddTodayExpense());
-        homePanel.add(new ExpenseTrend());
-        homePanel.add(new DisplayTodayExpense());
-        homePanel.add(new AddFutureExpense());
-        return homePanel;
+public class HomeUi extends JPanel {
+    public HomeUi() {
+        setLayout(new GridLayout(2, 2, 10, 10));
+        setBackground(Color.LIGHT_GRAY);
+        add(new AddTodayExpense());
+        add(new ExpenseTrend());
+        add(new DisplayTodayExpense());
+        add(new AddFutureExpense());
     }
 }

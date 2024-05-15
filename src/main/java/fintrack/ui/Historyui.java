@@ -1,5 +1,7 @@
 package fintrack.ui;
 
-public class Historyui {
+import javax.swing.JPanel;
+
+public class Historyui extends JPanel{
     
 }
