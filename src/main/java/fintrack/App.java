@@ -3,7 +3,8 @@ package fintrack;
 import javax.swing.*;
 
 import fintrack.ui.MainUi;
-    
+
+import fintrack.ui.WelcomeUi;
 import java.awt.*;
 
 public class App {
@@ -17,7 +18,15 @@ public class App {
         frame.setResizable(false);
 
         // frame.add(HomeUi.HomeUiPanel());
-        frame.add(new MainUi());
+        try{
+            frame.add(new WelcomeUi());
+            Thread.sleep(1000);
+            frame.add(new MainUi());
+        }catch(InterruptedException ie){
+
+        }
+        
+        
         frame.setVisible(true);
     }
 }
