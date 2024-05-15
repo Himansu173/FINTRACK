@@ -2,11 +2,12 @@ package fintrack;
 
 import java.awt.*;
 import javax.swing.*;
-import fintrack.ui.MainUi;
+import fintrack.ui.WelcomeUi;
 
 public class App {
+    public static JFrame frame;
     public static void main(String[] args) {
-        JFrame frame = new JFrame("FINTRACK");
+        frame = new JFrame("FINTRACK");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
         frame.setBackground(Color.MAGENTA);
@@ -14,7 +15,7 @@ public class App {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         // frame.setResizable(false);
 
-        frame.add(new MainUi());
+        frame.add(new WelcomeUi());
         frame.setVisible(true);
     }
 }

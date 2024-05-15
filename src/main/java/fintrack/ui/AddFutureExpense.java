@@ -54,6 +54,7 @@ public class AddFutureExpense extends JPanel {
         String[] categories = { "-- select --", "Food", "Transportation", "Entertainment", "Utilities", "Shopping",
                 "Others" };
         categoryComboBox = new JComboBox<>(categories);
+        categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
         addExpensePanel.add(categoryComboBox);
 
         addExpensePanel.add(new JLabel(""));
@@ -63,6 +64,8 @@ public class AddFutureExpense extends JPanel {
 
         // Add a button to submit the future expense
         final JButton submitButton = new JButton("Submit");
+        submitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        addExpensePanel.add(submitButton);
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -97,30 +100,6 @@ public class AddFutureExpense extends JPanel {
                 // Add the future expense to the list
                 System.out.println("Amount: " + amount + ", Category: " + category + ", Future Date: " +
                         futureDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-            }
-        });
-
-        addExpensePanel.add(submitButton);
-        submitButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                submitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                submitButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
-        });
-        categoryComboBox.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                categoryComboBox.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
         });
 

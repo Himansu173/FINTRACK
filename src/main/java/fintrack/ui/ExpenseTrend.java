@@ -46,17 +46,7 @@ public class ExpenseTrend extends JPanel {
                 updateChart(selectedTimeRange);
             }
         });
-        timeRangeComboBox.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                timeRangeComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                timeRangeComboBox.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
-        });
+        timeRangeComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Create panel for combo box
         JPanel comboBoxPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));

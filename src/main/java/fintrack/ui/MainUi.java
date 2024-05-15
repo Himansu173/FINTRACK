@@ -31,15 +31,19 @@ public class MainUi extends JPanel {
                 final JLabel homeLabel = new JLabel(
                                 resizeImageIcon(new File("").getAbsolutePath() + "\\src\\main\\resource\\home.png",
                                                 ICON_WIDTH, ICON_HEIGHT));
+                homeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 final JLabel budgetLabel = new JLabel(
                                 resizeImageIcon(new File("").getAbsolutePath() + "\\src\\main\\resource\\budget.png",
                                                 ICON_WIDTH, ICON_HEIGHT));
+                budgetLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 final JLabel historyLabel = new JLabel(
                                 resizeImageIcon(new File("").getAbsolutePath() + "\\src\\main\\resource\\history.png",
                                                 ICON_WIDTH, ICON_HEIGHT));
+                historyLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 final JLabel profileLabel = new JLabel(
                                 resizeImageIcon(new File("").getAbsolutePath() + "\\src\\main\\resource\\user.png",
                                                 ICON_WIDTH, ICON_HEIGHT));
+                profileLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
                 // Add gaps between labels
                 sideBarMenu.add(Box.createRigidArea(new Dimension(0, 0))); // Add initial gap
@@ -122,16 +126,6 @@ public class MainUi extends JPanel {
                                 mainUiContent.revalidate();
                                 mainUiContent.repaint();
                         }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                                homeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                                homeLabel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                        }
                 });
                 budgetLabel.addMouseListener(new MouseAdapter() {
                         @Override
@@ -140,16 +134,6 @@ public class MainUi extends JPanel {
                                 mainUiContent.add(new BudgetUi(), BorderLayout.CENTER);
                                 mainUiContent.revalidate();
                                 mainUiContent.repaint();
-                        }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                                budgetLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                                budgetLabel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                         }
                 });
                 historyLabel.addMouseListener(new MouseAdapter() {
@@ -160,16 +144,6 @@ public class MainUi extends JPanel {
                                 mainUiContent.revalidate();
                                 mainUiContent.repaint();
                         }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                                historyLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                                historyLabel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                        }
                 });
                 profileLabel.addMouseListener(new MouseAdapter() {
                         @Override
@@ -178,16 +152,6 @@ public class MainUi extends JPanel {
                                 mainUiContent.add(new ProfileUi(), BorderLayout.CENTER);
                                 mainUiContent.revalidate();
                                 mainUiContent.repaint();
-                        }
-
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                                profileLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                        }
-
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                                profileLabel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                         }
                 });
         }

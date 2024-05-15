@@ -60,6 +60,7 @@ public class AddTodayExpense extends JPanel {
         categoryComboBox.addItem("Utilities");
         categoryComboBox.addItem("Shopping");
         categoryComboBox.addItem("Others");
+        categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(categoryComboBox);
 
         // Description
@@ -77,6 +78,7 @@ public class AddTodayExpense extends JPanel {
         // Add Expense button
         add(new JLabel());
         addButton = new JButton("Add Expense");
+        addButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -106,28 +108,6 @@ public class AddTodayExpense extends JPanel {
                 categoryComboBox.setSelectedItem("-- select --");
             }
         });
-        addButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                addButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                addButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
-        });
         add(addButton);
-        categoryComboBox.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                categoryComboBox.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            }
-        });
     }
 }
