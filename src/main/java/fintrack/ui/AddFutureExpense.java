@@ -11,10 +11,11 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import com.toedter.calendar.JDateChooser;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 
 public class AddFutureExpense extends JPanel {
     private JTextField amountField;
@@ -98,8 +99,9 @@ public class AddFutureExpense extends JPanel {
                 }
 
                 // Add the future expense to the list
-                System.out.println("Amount: " + amount + ", Category: " + category + ", Future Date: " +
-                        futureDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                addExpense(futureDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), amount, category);
+                JOptionPane.showMessageDialog(AddFutureExpense.this, "The Future expense added.", "Successful",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -145,14 +147,65 @@ public class AddFutureExpense extends JPanel {
         addExpense("18-11-2025", "200", "Shopping");
         addExpense("18-11-2025", "100", "Food");
         addExpense("18-11-2025", "50", "Transportation");
-        addExpense("18-11-2025", "200", "Shopping");
+        addExpense("18-05-2024", "200", "Shopping");
 
         // Add futureExpensesPanel to the bottom section with a border
         add(futureExpensesPanel, BorderLayout.CENTER);
+
+        // Create a Timer to call checkFutureExpenses() after 2 seconds
+        Timer timer = new Timer(1500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkFutureExpenses();
+            }
+        });
+        timer.setRepeats(false); // Set to execute only once
+        timer.start();
     }
 
     private void addExpense(String date, String amount, String category) {
         tableModel.addRow(new Object[] { date, "$" + amount, category });
+    }
+
+    private void checkFutureExpenses() {
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        List<Object[]> matchingExpenses = new ArrayList<>();
+
+        // Iterate through the table rows to find matching dates
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            String dateStr = (String) tableModel.getValueAt(i, 0);
+            LocalDate expenseDate = LocalDate.parse(dateStr, formatter);
+
+            if (expenseDate.equals(today)) {
+                // Collect matching expense details
+                Object[] row = new Object[tableModel.getColumnCount()];
+                for (int j = 0; j < tableModel.getColumnCount(); j++) {
+                    row[j] = tableModel.getValueAt(i, j);
+                }
+                matchingExpenses.add(row);
+            }
+        }
+
+        // If there are matching expenses, show a dialog box
+        if (!matchingExpenses.isEmpty()) {
+            for (Object[] expense : matchingExpenses) {
+                int result = JOptionPane.showConfirmDialog(
+                        this,
+                        "Expense details:\nDate: " + expense[0] + "\nAmount: " + expense[1] + "\nCategory: "
+                                + expense[2] +
+                                "\nDo you want to confirm this expense?",
+                        "Confirm Expense",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+
+                if (result == JOptionPane.YES_OPTION) {
+                    System.out.println("Expense confirmed: " + expense[1]);
+                } else {
+                    System.out.println("Expense cancelled: " + expense[1]);
+                }
+            }
+        }
     }
 
     // Custom TableCellRenderer to center align cell contents

@@ -3,6 +3,8 @@ package fintrack.ui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import fintrack.App;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -61,24 +63,32 @@ public class MainUi extends JPanel {
                 profilePanel.setBackground(Color.WHITE);
                 profilePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
-                // Create constraints for logoLabel
-                GridBagConstraints logoConstraints = new GridBagConstraints();
-                logoConstraints.gridx = 0;
-                logoConstraints.gridy = 0;
-                logoConstraints.anchor = GridBagConstraints.LINE_START; // Align to top-left corner
-
                 // Create constraints for profileImageLabel
-                GridBagConstraints profileImageConstraints = new GridBagConstraints();
-                profileImageConstraints.gridx = 1;
-                profileImageConstraints.gridy = 0;
-                profileImageConstraints.anchor = GridBagConstraints.NORTHEAST; // Align to top-right corner
+                GridBagConstraints powerButtonConstraints = new GridBagConstraints();
+                powerButtonConstraints.gridx = 1;
+                powerButtonConstraints.gridy = 0;
+                powerButtonConstraints.anchor = GridBagConstraints.NORTHEAST; // Align to top-right corner
+                powerButtonConstraints.insets = new Insets(7, 0, 0, 0);
 
+                // Create a power button label with icon
+                JLabel powerButtonLabel = new JLabel(
+                                resizeImageIcon(new File("").getAbsolutePath() + "\\src\\main\\resource\\power.png",
+                                                30, 30));
+                powerButtonLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 // Create profile image label
+                profilePanel.add(powerButtonLabel, powerButtonConstraints);
                 JLabel profileImageLabel = new JLabel(
                                 resizeImageIcon(new File("").getAbsolutePath()
-                                                + "\\src\\main\\resource\\maleProfile.png", 40, 40));
+                                                + "\\src\\main\\resource\\maleProfile.png", 45, 45));
+                // Add profileImageLabel to profilePanel
 
-                // Add logoLabel and profileImageLabel to profilePanel
+                // Create constraints for powerButtonLabel
+                GridBagConstraints profileImageConstraints = new GridBagConstraints();
+                profileImageConstraints.gridx = 2;
+                profileImageConstraints.gridy = 0;
+                profileImageConstraints.anchor = GridBagConstraints.NORTHEAST; // Align to top-right corner
+                profileImageConstraints.insets = new Insets(0, 20, 0, 0); // Add some space between profile image and
+                                                                          // power button
                 profilePanel.add(profileImageLabel, profileImageConstraints);
 
                 // Load the image for the logo
@@ -152,6 +162,27 @@ public class MainUi extends JPanel {
                                 mainUiContent.add(new ProfileUi(), BorderLayout.CENTER);
                                 mainUiContent.revalidate();
                                 mainUiContent.repaint();
+                        }
+                });
+
+                // Add MouseListener to power button label
+                powerButtonLabel.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                                int confirm = JOptionPane.showConfirmDialog(MainUi.this,
+                                                "Are you sure want to Log Out?", "Confirmation",
+                                                JOptionPane.YES_NO_OPTION);
+                                if (confirm == JOptionPane.YES_OPTION) {
+                                        // System.exit(0);
+                                        SwingUtilities.invokeLater(new Runnable() {
+                                                public void run() {
+                                                        App.frame.getContentPane().removeAll();
+                                                        App.frame.getContentPane().add(new SigninUi());
+                                                        App.frame.getContentPane().revalidate();
+                                                        App.frame.getContentPane().repaint();
+                                                }
+                                        });
+                                }
                         }
                 });
         }

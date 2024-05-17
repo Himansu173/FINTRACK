@@ -10,8 +10,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.data.category.DefaultCategoryDataset;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -106,15 +104,15 @@ public class ExpenseTrend extends JPanel {
 
         // Customize plot
         CategoryPlot plot = chart.getCategoryPlot();
-        plot.setBackgroundPaint(Color.lightGray);
-        plot.setDomainGridlinePaint(Color.white);
-        plot.setRangeGridlinePaint(Color.white);
+        plot.setBackgroundPaint(Color.white);
+        plot.setDomainGridlinePaint(Color.BLACK);
+        plot.setRangeGridlinePaint(Color.BLACK);
 
         // Use LineAndShapeRenderer with interpolation for smooth graph line
         LineAndShapeRenderer renderer = new LineAndShapeRenderer();
         renderer.setSeriesLinesVisible(0, true);
         renderer.setSeriesShapesVisible(0, false);
-        renderer.setSeriesPaint(0, Color.blue);
+        renderer.setSeriesPaint(0, Color.BLUE);
         renderer.setSeriesStroke(0, new BasicStroke(2.0f));
         plot.setRenderer(renderer);
 
