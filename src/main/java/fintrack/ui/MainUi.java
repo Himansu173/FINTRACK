@@ -150,7 +150,7 @@ public class MainUi extends JPanel {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                                 mainUiContent.removeAll();
-                                mainUiContent.add(new Historyui(), BorderLayout.CENTER);
+                                mainUiContent.add(new HistoryUi(), BorderLayout.CENTER);
                                 mainUiContent.revalidate();
                                 mainUiContent.repaint();
                         }
