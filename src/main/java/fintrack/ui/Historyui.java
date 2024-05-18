@@ -109,41 +109,62 @@ public class Historyui extends JPanel {
 
         // Sample data for different time periods
         if (timePeriod.equals("Last 7 days")) {
+            dataset.addValue(200, "Expenses", "Healthcare");
             dataset.addValue(744, "Expenses", "Food");
             dataset.addValue(353, "Expenses", "Transportation");
             dataset.addValue(873, "Expenses", "Entertainment");
+            dataset.addValue(150, "Expenses", "Clothing");
+            dataset.addValue(300, "Expenses", "Taxes");
+            dataset.addValue(1200, "Expenses", "Housing");
             dataset.addValue(114, "Expenses", "Utility");
             dataset.addValue(179, "Expenses", "Shopping");
             dataset.addValue(551, "Expenses", "Others");
         } else if (timePeriod.equals("1 Month")) {
+            dataset.addValue(400, "Expenses", "Healthcare");
             dataset.addValue(163, "Expenses", "Food");
             dataset.addValue(654, "Expenses", "Transportation");
             dataset.addValue(356, "Expenses", "Entertainment");
+            dataset.addValue(200, "Expenses", "Clothing");
+            dataset.addValue(1200, "Expenses", "Taxes");
+            dataset.addValue(4800, "Expenses", "Housing");
             dataset.addValue(356, "Expenses", "Utility");
             dataset.addValue(30, "Expenses", "Shopping");
             dataset.addValue(55, "Expenses", "Others");
         } else if (timePeriod.equals("3 Months")) {
+            dataset.addValue(1200, "Expenses", "Healthcare");
             dataset.addValue(543, "Expenses", "Food");
             dataset.addValue(634, "Expenses", "Transportation");
             dataset.addValue(643, "Expenses", "Entertainment");
+            dataset.addValue(600, "Expenses", "Clothing");
+            dataset.addValue(3600, "Expenses", "Taxes");
+            dataset.addValue(14400, "Expenses", "Housing");
             dataset.addValue(342, "Expenses", "Utility");
             dataset.addValue(330, "Expenses", "Shopping");
             dataset.addValue(756, "Expenses", "Others");
         } else if (timePeriod.equals("6 Months")) {
+            dataset.addValue(2400, "Expenses", "Healthcare");
             dataset.addValue(290, "Expenses", "Food");
             dataset.addValue(720, "Expenses", "Transportation");
             dataset.addValue(290, "Expenses", "Entertainment");
+            dataset.addValue(1200, "Expenses", "Clothing");
+            dataset.addValue(7200, "Expenses", "Taxes");
+            dataset.addValue(28800, "Expenses", "Housing");
             dataset.addValue(650, "Expenses", "Utility");
             dataset.addValue(150, "Expenses", "Shopping");
             dataset.addValue(604, "Expenses", "Others");
         } else if (timePeriod.equals("1 Year")) {
+            dataset.addValue(4800, "Expenses", "Healthcare");
             dataset.addValue(410, "Expenses", "Food");
             dataset.addValue(290, "Expenses", "Transportation");
             dataset.addValue(780, "Expenses", "Entertainment");
+            dataset.addValue(2400, "Expenses", "Clothing");
+            dataset.addValue(14400, "Expenses", "Taxes");
+            dataset.addValue(57600, "Expenses", "Housing");
             dataset.addValue(370, "Expenses", "Utility");
             dataset.addValue(310, "Expenses", "Shopping");
             dataset.addValue(160, "Expenses", "Others");
         }
+        
 
         return dataset;
     }
@@ -172,12 +193,16 @@ public class Historyui extends JPanel {
         CategoryPlot plot = chart.getCategoryPlot();
         BarRenderer renderer = new CustomBarRenderer(
                 new Paint[] {
-                    new Color(255, 100, 100), // Food
-                    new Color(100, 255, 100), // Transportation
-                    new Color(100, 100, 255), // Entertainment
-                    new Color(255, 255, 100), // Utility
-                    new Color(255, 200, 100), // Shopping
-                    new Color(200, 200, 200) // Others
+                        new Color(255, 100, 100),
+                        new Color(100, 255, 100),
+                        new Color(100, 100, 255),
+                        new Color(255, 255, 100),
+                        new Color(255, 200, 100),
+                        new Color(200, 200, 200),
+                        new Color(255, 150, 150),
+                        new Color(100, 255, 255), 
+                        new Color(200, 100, 255), 
+                        new Color(255, 100, 200)
                 });
         plot.setRenderer(renderer);
 

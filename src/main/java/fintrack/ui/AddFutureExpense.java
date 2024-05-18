@@ -16,7 +16,6 @@ import java.util.Calendar;
 import java.util.List;
 import com.toedter.calendar.JDateChooser;
 
-
 public class AddFutureExpense extends JPanel {
     private JTextField amountField;
     private JComboBox<String> categoryComboBox;
@@ -52,7 +51,7 @@ public class AddFutureExpense extends JPanel {
         addExpensePanel.add(amountField);
 
         addExpensePanel.add(new JLabel("Category:"));
-        String[] categories = { "-- select --", "Food", "Transportation", "Entertainment", "Utilities", "Shopping",
+        String[] categories = { "-- select --", "Healthcare", "Food", "Transportation", "Entertainment", "Clothing", "Taxes", "Housing", "Utilities", "Shopping",
                 "Others" };
         categoryComboBox = new JComboBox<>(categories);
         categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -200,6 +199,17 @@ public class AddFutureExpense extends JPanel {
                         JOptionPane.QUESTION_MESSAGE);
 
                 if (result == JOptionPane.YES_OPTION) {
+                    JPanel panel = new JPanel(new GridLayout(1, 2, 5, 5));
+                    JTextField timeField = new JTextField();
+                    panel.add(new JLabel("Enter Expense Time: "));
+                    panel.add(timeField);
+
+                    // Show option dialog
+                    int val = JOptionPane.showOptionDialog(this, panel, "Expense Time",
+                            JOptionPane.OK_OPTION,
+                            JOptionPane.PLAIN_MESSAGE, null, new String[] { "Save" }, null);
+                    if (val != JOptionPane.OK_OPTION)
+                        return;
                     System.out.println("Expense confirmed: " + expense[1]);
                 } else {
                     System.out.println("Expense cancelled: " + expense[1]);

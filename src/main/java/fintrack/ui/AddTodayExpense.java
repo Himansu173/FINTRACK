@@ -52,14 +52,9 @@ public class AddTodayExpense extends JPanel {
         // Category
         JLabel categoryLabel = new JLabel("Category:");
         add(categoryLabel);
-        categoryComboBox = new JComboBox<>();
-        categoryComboBox.addItem("-- select --"); // Empty item
-        categoryComboBox.addItem("Food");
-        categoryComboBox.addItem("Transportation");
-        categoryComboBox.addItem("Entertainment");
-        categoryComboBox.addItem("Utilities");
-        categoryComboBox.addItem("Shopping");
-        categoryComboBox.addItem("Others");
+        String[] categories = { "-- select --", "Healthcare", "Food", "Transportation", "Entertainment", "Clothing", "Taxes", "Housing", "Utilities", "Shopping",
+                "Others" };
+        categoryComboBox = new JComboBox<>(categories);
         categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(categoryComboBox);
 

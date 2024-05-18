@@ -2,12 +2,10 @@ package fintrack.ui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 public class ProfileUi extends JPanel {
     private JLabel nameLabel;
@@ -22,11 +20,11 @@ public class ProfileUi extends JPanel {
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 10, 10, 10));
         setBackground(Color.WHITE);
+
         // Create the top panel for the user image
         JPanel topPanel = new JPanel();
         topPanel.setBackground(Color.WHITE);
         topPanel.setLayout(new BorderLayout());
-        // topPanel.setPreferredSize(new Dimension(400, 250));
 
         // Add the user image label at the center
         JLabel userImageLabel = new JLabel();
@@ -40,7 +38,6 @@ public class ProfileUi extends JPanel {
         // Create a panel for the rating label
         JPanel ratingPanel = new JPanel(new BorderLayout());
         ratingPanel.setBackground(Color.WHITE);
-
         ratingPanel.setPreferredSize(new Dimension(400, 30));
         JLabel ratingLabel = new JLabel("Rating: 4.5");
         ratingLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -50,7 +47,7 @@ public class ProfileUi extends JPanel {
         topPanel.add(ratingPanel, BorderLayout.NORTH);
 
         // Create the second panel for user profile data
-        JPanel dataPanel = new JPanel();
+        final JPanel dataPanel = new JPanel();
         dataPanel.setBackground(Color.WHITE);
         dataPanel.setLayout(new GridLayout(3, 2, 5, 5)); // Two columns with 6 rows
         dataPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
@@ -68,6 +65,8 @@ public class ProfileUi extends JPanel {
         changePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         JButton editProfileButton = new JButton("Edit Profile");
         editProfileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        JButton setBudgetButton = new JButton("Set Budget");
+        setBudgetButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Add action listener to Change Password button
         changePasswordButton.addActionListener(new ActionListener() {
@@ -86,7 +85,8 @@ public class ProfileUi extends JPanel {
                 panel.add(reEnterPasswordField);
 
                 // Show option dialog
-                int result = JOptionPane.showOptionDialog(null, panel, "Change Password", JOptionPane.OK_CANCEL_OPTION,
+                int result = JOptionPane.showOptionDialog(dataPanel, panel, "Change Password",
+                        JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.PLAIN_MESSAGE, null, new String[] { "Change", "Close" }, "Change");
 
                 // Process result
@@ -97,12 +97,12 @@ public class ProfileUi extends JPanel {
 
                     // Check if passwords match
                     if (!newPassword.equals(reEnterPassword)) {
-                        JOptionPane.showMessageDialog(null, "New password and re-entered password do not match.",
+                        JOptionPane.showMessageDialog(dataPanel, "New password and re-entered password do not match.",
                                 "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
                         // Perform password change logic
                         // For demo purpose, just displaying the entered passwords
-                        JOptionPane.showMessageDialog(null,
+                        JOptionPane.showMessageDialog(dataPanel,
                                 "Old Password: " + oldPassword + "\nNew Password: " + newPassword, "Password Changed",
                                 JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -134,7 +134,8 @@ public class ProfileUi extends JPanel {
                 panel.add(ageField);
 
                 // Show option dialog
-                int result = JOptionPane.showOptionDialog(null, panel, "Edit Profile", JOptionPane.OK_CANCEL_OPTION,
+                int result = JOptionPane.showOptionDialog(dataPanel, panel, "Edit Profile",
+                        JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.PLAIN_MESSAGE, null, new String[] { "Save", "Close" }, "Save");
 
                 // Process result
@@ -148,12 +149,42 @@ public class ProfileUi extends JPanel {
             }
         });
 
+        // Add action listener to Set Budget button
+        setBudgetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Create a panel to hold the budget field
+                JPanel panel = new JPanel(new GridLayout(1, 2, 5, 5));
+                JTextField budgetField = new JTextField();
+                panel.add(new JLabel("Monthly Budget:"));
+                panel.add(budgetField);
+
+                // Show option dialog
+                int result = JOptionPane.showOptionDialog(dataPanel, panel, "Set Budget", JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE, null, new String[] { "Save", "Close" }, null);
+
+                // Process result
+                if (result == JOptionPane.OK_OPTION) {
+                    try {
+                        int budget = Integer.parseInt(budgetField.getText());
+                        JOptionPane.showMessageDialog(dataPanel, "Monthly Budget: " + budget, "Budget Set",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } catch (NumberFormatException ne) {
+                        JOptionPane.showMessageDialog(dataPanel, "Enter Budget correctly", "Invalid Budget",
+                                JOptionPane.ERROR_MESSAGE);
+
+                    }
+                }
+            }
+        });
+
         // Create a panel for the buttons and add them to it
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.setBorder(new EmptyBorder(35, 30, 35, 30));
         buttonPanel.add(changePasswordButton);
         buttonPanel.add(editProfileButton);
+        buttonPanel.add(setBudgetButton);
 
         // Add panels to the main profile panel
         add(topPanel, BorderLayout.NORTH);
