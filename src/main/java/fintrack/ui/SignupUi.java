@@ -23,15 +23,12 @@ public class SignupUi extends JPanel {
     private JPasswordField confirmPasswordField;
     private JRadioButton maleRadioButton;
     private JRadioButton femaleRadioButton;
-    private BufferedImage backgroundImage; // Image to be added to the background
+    private ImageIcon backgroundImage; // Image to be added to the background
 
     public SignupUi() {
         // Load the background image
-        try {
-            backgroundImage = ImageIO.read(new File(new File("").getAbsolutePath() + "\\src\\main\\resource\\bg.jpg"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+
+        
 
         // Set layout to null to make the SignupUi panel cover the whole area
         setLayout(null);
@@ -48,7 +45,9 @@ public class SignupUi extends JPanel {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Draw the background image
-                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+                backgroundImage = new ImageIcon( new File("src//main//resource//bg.jpg").getAbsolutePath());
+
+                g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
 

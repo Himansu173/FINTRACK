@@ -18,14 +18,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 
-public class Historyui extends JPanel {
+public class HistoryUi extends JPanel {
     private JComboBox<String> timePeriodComboBox;
     private DefaultCategoryDataset dataset;
     private JFreeChart chart;
     private JDateChooser dateChooser;
     private JTable historyTable;
 
-    public Historyui() {
+    public HistoryUi() {
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();

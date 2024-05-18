@@ -132,6 +132,7 @@ public class AddFutureExpense extends JPanel {
         expensesTable.setBorder(null); // Remove table border
         expensesTable.getTableHeader().setBorder(null); // Remove header border
         JScrollPane scrollPane = new JScrollPane(expensesTable);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setBorder(null); // Remove scroll pane border
         futureExpensesPanel.add(scrollPane, BorderLayout.CENTER);
 

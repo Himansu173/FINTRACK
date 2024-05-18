@@ -34,8 +34,7 @@ public class SigninUi extends JPanel {
                 super.paintComponent(g);
                 // Load your background image (replace "path_to_your_image" with the actual
                 // path)
-                ImageIcon backgroundImage = new ImageIcon(
-                        new File("").getAbsolutePath() + "\\src\\main\\resource\\bg.jpg");
+                ImageIcon backgroundImage = new ImageIcon(new File("src//main//resource//bg.jpg").getAbsolutePath());
                 // Draw the background image
                 g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), null);
             }
