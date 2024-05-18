@@ -27,24 +27,25 @@ public class MainUi extends JPanel {
                 sideBarMenu.setBackground(Color.WHITE);
                 sideBarMenu.setBorder(BorderFactory.createEmptyBorder(125, 25, 0, 0));
 
-                // Increase width of side bar menu
+                // Increase width of side bar me
                 sideBarMenu.setPreferredSize(new Dimension(80, getHeight()));
 
                 final JLabel homeLabel = new JLabel(
-                                resizeImageIcon(new File("").getAbsolutePath() + "\\src\\main\\resource\\home.png",
-                                                ICON_WIDTH, ICON_HEIGHT));
+                new ImageIcon(new ImageIcon("FINTRACK//src//main//resource//home.png").getImage().getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH))
+                );
                 homeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 final JLabel budgetLabel = new JLabel(
-                                resizeImageIcon(new File("").getAbsolutePath() + "\\src\\main\\resource\\budget.png",
-                                                ICON_WIDTH, ICON_HEIGHT));
+                        new ImageIcon(new ImageIcon("FINTRACK//src//main//resource//budget.png").getImage().getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH))
+                );
                 budgetLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 final JLabel historyLabel = new JLabel(
-                                resizeImageIcon(new File("").getAbsolutePath() + "\\src\\main\\resource\\history.png",
-                                                ICON_WIDTH, ICON_HEIGHT));
+                new ImageIcon(new ImageIcon("FINTRACK//src//main//resource//history.png").getImage().getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH))
+                
+                );
                 historyLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 final JLabel profileLabel = new JLabel(
-                                resizeImageIcon(new File("").getAbsolutePath() + "\\src\\main\\resource\\user.png",
-                                                ICON_WIDTH, ICON_HEIGHT));
+                new ImageIcon(new ImageIcon("FINTRACK//src//main//resource//user.png").getImage().getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH))
+                );
                 profileLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
                 // Add gaps between labels
@@ -72,14 +73,14 @@ public class MainUi extends JPanel {
 
                 // Create a power button label with icon
                 JLabel powerButtonLabel = new JLabel(
-                                resizeImageIcon(new File("").getAbsolutePath() + "\\src\\main\\resource\\power.png",
-                                                30, 30));
+                new ImageIcon(new ImageIcon("FINTRACK//src//main//resource//power.png").getImage().getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH))
+                );
                 powerButtonLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 // Create profile image label
                 profilePanel.add(powerButtonLabel, powerButtonConstraints);
                 JLabel profileImageLabel = new JLabel(
-                                resizeImageIcon(new File("").getAbsolutePath()
-                                                + "\\src\\main\\resource\\maleProfile.png", 45, 45));
+                new ImageIcon(new ImageIcon("FINTRACK//src//main//resource//maleProfile.png").getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH))
+                );
                 // Add profileImageLabel to profilePanel
 
                 // Create constraints for powerButtonLabel
@@ -92,8 +93,8 @@ public class MainUi extends JPanel {
                 profilePanel.add(profileImageLabel, profileImageConstraints);
 
                 // Load the image for the logo
-                ImageIcon logoIcon = resizeImageIcon(
-                                new File("").getAbsolutePath() + "\\src\\main\\resource\\maleProfile.png", 55, 55);
+                ImageIcon logoIcon=new ImageIcon(new ImageIcon("FINTRACK//src//main//resource//maleProfile.png").getImage().getScaledInstance(55, 55, Image.SCALE_SMOOTH));
+                
 
                 // Create menu labels with icons
                 JLabel logoLabel = new JLabel(logoIcon);

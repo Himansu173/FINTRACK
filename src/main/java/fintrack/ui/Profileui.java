@@ -32,7 +32,7 @@ public class ProfileUi extends JPanel {
         JLabel userImageLabel = new JLabel();
         userImageLabel.setBorder(new EmptyBorder(40, 0, 40, 0));
         userImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        ImageIcon imageIcon = new ImageIcon(new File("").getAbsolutePath() + "\\src\\main\\resource\\maleProfile.png");
+        ImageIcon imageIcon = new ImageIcon("FINTRACK//src//main//resource//maleProfile.png");
         Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         userImageLabel.setIcon(new ImageIcon(image));
         topPanel.add(userImageLabel, BorderLayout.CENTER);
