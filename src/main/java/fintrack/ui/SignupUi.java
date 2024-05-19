@@ -26,10 +26,6 @@ public class SignupUi extends JPanel {
     private ImageIcon backgroundImage; // Image to be added to the background
 
     public SignupUi() {
-        // Load the background image
-
-        
-
         // Set layout to null to make the SignupUi panel cover the whole area
         setLayout(null);
 
@@ -45,7 +41,7 @@ public class SignupUi extends JPanel {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 // Draw the background image
-                backgroundImage = new ImageIcon( new File("src//main//resource//bg.jpg").getAbsolutePath());
+                backgroundImage = new ImageIcon(new File("src//main//resource//bg.jpg").getAbsolutePath());
 
                 g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
@@ -208,8 +204,16 @@ public class SignupUi extends JPanel {
                     message.append("Profession: ").append(profession).append("\n");
                     message.append("Gender: ").append(maleRadioButton.isSelected() ? "Male" : "Female").append("\n");
                     // Display the message
-                    JOptionPane.showMessageDialog(mainPanel, message.toString(), "Signup Successful",
+                    JOptionPane.showMessageDialog(mainPanel, "Please login to contineu.", "Signup Successful",
                             JOptionPane.INFORMATION_MESSAGE);
+                    SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            App.frame.getContentPane().removeAll();
+                            App.frame.getContentPane().add(new SigninUi());
+                            App.frame.getContentPane().revalidate();
+                            App.frame.getContentPane().repaint();
+                        }
+                    });
                 }
             }
         });

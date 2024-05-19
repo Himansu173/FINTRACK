@@ -1,5 +1,7 @@
 package fintrack.ui;
 
+import fintrack.db.AddFutureExpenseConnection;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -51,7 +53,8 @@ public class AddFutureExpense extends JPanel {
         addExpensePanel.add(amountField);
 
         addExpensePanel.add(new JLabel("Category:"));
-        String[] categories = { "-- select --", "Healthcare", "Food", "Transportation", "Entertainment", "Clothing", "Taxes", "Housing", "Utilities", "Shopping",
+        String[] categories = { "-- select --", "Healthcare", "Food", "Transportation", "Entertainment", "Clothing",
+                "Taxes", "Housing", "Utilities", "Shopping",
                 "Others" };
         categoryComboBox = new JComboBox<>(categories);
         categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -87,19 +90,23 @@ public class AddFutureExpense extends JPanel {
                     if (selectedDate != null) {
                         futureDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     } else {
-                        JOptionPane.showMessageDialog(AddFutureExpense.this, "Please select a future date.", "Error",
+                        JOptionPane.showMessageDialog(AddFutureExpense.this, "Please select a date.", "Error",
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     }
+                    new AddFutureExpenseConnection(SigninUi.Email,
+                            futureDate.format(DateTimeFormatter.ofPattern("dd-MMM-yy")),
+                            Integer.parseInt(amount), category);
+                    amountField.setText("");
+                    categoryComboBox.setSelectedItem("-- select --");
+                    dateChooser.setDate(null);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(AddFutureExpense.this, "Error converting date.", "Error",
+                    JOptionPane.showMessageDialog(AddFutureExpense.this, "Some Error occure!", "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                // Add the future expense to the list
-                addExpense(futureDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), amount, category);
-                JOptionPane.showMessageDialog(AddFutureExpense.this, "The Future expense added.", "Successful",
+                JOptionPane.showMessageDialog(AddFutureExpense.this, "The Future Expense Recorded.", "Successful",
                         JOptionPane.INFORMATION_MESSAGE);
             }
         });
@@ -211,8 +218,25 @@ public class AddFutureExpense extends JPanel {
                             JOptionPane.PLAIN_MESSAGE, null, new String[] { "Save" }, null);
                     if (val != JOptionPane.OK_OPTION)
                         return;
+                    // try {
+                    // new AddTodayExpenseConnection(SigninUi.Email, "" + expense[0],
+                    // Integer.parseInt("" + expense[1]), timeField.getText(), "" + expense[2],
+                    // descriptionArea.getText());
+                    // new RemoveFutureExpenseConnection(SigninUi.Email, "" + expense[0],
+                    // Integer.parseInt("" + expense[1]), "" + expense[2]);
+                    // } catch (Exception e) {
+                    // JOptionPane.showMessageDialog(this, "Some error occure!", "ERROR",
+                    // JOptionPane.ERROR_MESSAGE);
+                    // }
                     System.out.println("Expense confirmed: " + expense[1]);
                 } else {
+                    // try {
+                    // new RemoveFutureExpenseConnection(SigninUi.Email, "" + expense[0],
+                    // Integer.parseInt("" + expense[1]), "" + expense[2]);
+                    // } catch (Exception e) {
+                    // JOptionPane.showMessageDialog(this, "Some error occure!", "ERROR",
+                    // JOptionPane.ERROR_MESSAGE);
+                    // }
                     System.out.println("Expense cancelled: " + expense[1]);
                 }
             }

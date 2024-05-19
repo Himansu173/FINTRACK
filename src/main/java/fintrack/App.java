@@ -6,7 +6,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 
-import fintrack.db.globalConnection;
+import fintrack.db.GlobalConnection;
 import fintrack.ui.WelcomeUi;
 
 public class App {
@@ -22,7 +22,7 @@ public class App {
         frame.setMinimumSize(new Dimension(1000, 700));
 
         // create a connection object to initilize the Connection
-        final globalConnection conn = new globalConnection();
+        new GlobalConnection();
 
         // add the welcome page the frame to start the application
         frame.add(new WelcomeUi());
@@ -32,7 +32,7 @@ public class App {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                conn.closeConnection();
+                GlobalConnection.closeConnection();
                 frame.dispose();
             }
         });

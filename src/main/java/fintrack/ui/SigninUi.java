@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 public class SigninUi extends JPanel {
     JTextField usernameTextField;
     JPasswordField passwordField;
-
+    public static String Email;
     public SigninUi() {
         // Set layout to null to make the SigninUi panel cover the whole area
         setLayout(null);
@@ -112,9 +112,9 @@ public class SigninUi extends JPanel {
         signInButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = usernameTextField.getText();
+                Email = usernameTextField.getText();
                 String password = new String(passwordField.getPassword());
-                System.out.println("Username: " + username);
+                System.out.println("Username: " + Email);
                 System.out.println("Password: " + password);
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {

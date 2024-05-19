@@ -2,8 +2,9 @@ package fintrack.ui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
+import fintrack.db.AddTodayExpenseConnection;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +27,7 @@ public class AddTodayExpense extends JPanel {
         hederLabel.setFont(new Font("Calibri", Font.BOLD, 16));
         add(hederLabel);
         // Today's date label
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yy");
         JLabel todayDateLabel = new JLabel(LocalDate.now().format(formatter));
         todayDateLabel.setFont(new Font("Calibri", Font.BOLD, 16));
         add(todayDateLabel);
@@ -52,7 +53,8 @@ public class AddTodayExpense extends JPanel {
         // Category
         JLabel categoryLabel = new JLabel("Category:");
         add(categoryLabel);
-        String[] categories = { "-- select --", "Healthcare", "Food", "Transportation", "Entertainment", "Clothing", "Taxes", "Housing", "Utilities", "Shopping",
+        String[] categories = { "-- select --", "Healthcare", "Food", "Transportation", "Entertainment", "Clothing",
+                "Taxes", "Housing", "Utilities", "Shopping",
                 "Others" };
         categoryComboBox = new JComboBox<>(categories);
         categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -77,30 +79,38 @@ public class AddTodayExpense extends JPanel {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Check if any field is empty
-                if (amountField.getText().isEmpty() || timeField.getText().isEmpty()
-                        || descriptionArea.getText().isEmpty()
-                        || categoryComboBox.getSelectedItem().equals("-- select --")) {
-                    JOptionPane.showMessageDialog(AddTodayExpense.this, "All fields are mandatory!", "Error",
+                try {
+                    // Check if any field is empty
+                    if (amountField.getText().isEmpty() || timeField.getText().isEmpty()
+                            || descriptionArea.getText().isEmpty()
+                            || categoryComboBox.getSelectedItem().equals("-- select --")) {
+                        JOptionPane.showMessageDialog(AddTodayExpense.this, "All fields are mandatory!", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    // get all data
+                    int amount = Integer.parseInt(amountField.getText());
+                    String time = timeField.getText();
+                    String category = (String) categoryComboBox.getSelectedItem();
+                    String description = descriptionArea.getText();
+                    // Processing the input
+                    new AddTodayExpenseConnection(SigninUi.Email, LocalDate.now().format(formatter), amount, time, category, description);
+                    // Clear fields after adding expense
+                    amountField.setText("");
+                    timeField.setText("");
+                    descriptionArea.setText("");
+                    categoryComboBox.setSelectedItem("-- select --");
+                } catch (NumberFormatException ne) {
+                    JOptionPane.showMessageDialog(AddTodayExpense.this, "Expense must be a Integer value", "Error",
                             JOptionPane.ERROR_MESSAGE);
+                            return;
+                } catch (Exception ee) {
+                    JOptionPane.showMessageDialog(AddTodayExpense.this, "Some Error occure! Try After Some Time.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
-                // Add functionality to add expense
-                String amount = amountField.getText();
-                String time = timeField.getText();
-                String category = (String) categoryComboBox.getSelectedItem();
-                String description = descriptionArea.getText();
-
-                // Process the input (e.g., add to database, display in a table)
-                System.out.println("Amount: " + amount + ", Time: " + time + ", Category: " + category
-                        + ", Description: " + description);
-
-                // Clear fields after adding expense
-                amountField.setText("");
-                timeField.setText("");
-                descriptionArea.setText("");
-                categoryComboBox.setSelectedItem("-- select --");
+                JOptionPane.showMessageDialog(AddTodayExpense.this, "The Expense Recorded.", "Successful",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
         });
         add(addButton);

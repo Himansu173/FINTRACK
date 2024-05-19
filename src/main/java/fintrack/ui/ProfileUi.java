@@ -11,7 +11,7 @@ public class ProfileUi extends JPanel {
     private JLabel nameLabel;
     private JLabel emailLabel;
     private JLabel phoneLabel;
-    private JLabel occupationLabel;
+    private JLabel professionLabel;
     private JLabel genderLabel;
     private JLabel ageLabel;
 
@@ -56,7 +56,7 @@ public class ProfileUi extends JPanel {
         nameLabel = addProfileField(dataPanel, "Name", "John Doe");
         emailLabel = addProfileField(dataPanel, "Email", "john.doe@example.com");
         phoneLabel = addProfileField(dataPanel, "Phone", "+1234567890");
-        occupationLabel = addProfileField(dataPanel, "Occupation", "Teacher");
+        professionLabel = addProfileField(dataPanel, "Profession", "Teacher");
         genderLabel = addProfileField(dataPanel, "Gender", "Male");
         ageLabel = addProfileField(dataPanel, "Age", "30");
 
@@ -120,16 +120,16 @@ public class ProfileUi extends JPanel {
                         nameLabel.getText().substring(nameLabel.getText().indexOf(":") + 1).trim());
                 JTextField phoneField = new JTextField(
                         phoneLabel.getText().substring(phoneLabel.getText().indexOf(":") + 1).trim());
-                JTextField occupationField = new JTextField(
-                        occupationLabel.getText().substring(occupationLabel.getText().indexOf(":") + 1).trim());
+                JTextField professionField = new JTextField(
+                    professionLabel.getText().substring(professionLabel.getText().indexOf(":") + 1).trim());
                 JTextField ageField = new JTextField(
                         ageLabel.getText().substring(ageLabel.getText().indexOf(":") + 1).trim());
                 panel.add(new JLabel("Name:"));
                 panel.add(nameField);
                 panel.add(new JLabel("Phone:"));
                 panel.add(phoneField);
-                panel.add(new JLabel("Occupation:"));
-                panel.add(occupationField);
+                panel.add(new JLabel("Profession:"));
+                panel.add(professionField);
                 panel.add(new JLabel("Age:"));
                 panel.add(ageField);
 
@@ -143,7 +143,7 @@ public class ProfileUi extends JPanel {
                     // Update profile details
                     nameLabel.setText(nameField.getText());
                     phoneLabel.setText(phoneField.getText());
-                    occupationLabel.setText(occupationField.getText());
+                    professionLabel.setText(professionField.getText());
                     ageLabel.setText(ageField.getText());
                 }
             }

@@ -2,10 +2,13 @@ package fintrack.db;
 
 import java.sql.*;
 
-public class globalConnection {
-    public Connection con;
+import javax.swing.*;
 
-    public globalConnection() {
+public class GlobalConnection {
+    public static Connection con;
+    public static Statement stm;
+
+    public GlobalConnection() {
         String url = "jdbc:oracle:thin:@localhost:1521:xe";
         String username = "system";
         String password = "1234";
@@ -13,16 +16,16 @@ public class globalConnection {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             con = DriverManager.getConnection(url, username, password);
+            stm = con.createStatement();
+            new CreateTableConnection();
         } catch (Exception e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "Some error occure. please reopen the application.",
+                    "Server Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public Connection getConnection() {
-        return con;
-    }
-
-    public void closeConnection() {
+    public static void closeConnection() {
         try {
             con.close();
         } catch (Exception e) {
