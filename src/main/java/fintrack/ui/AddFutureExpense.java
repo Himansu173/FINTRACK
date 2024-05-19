@@ -1,6 +1,8 @@
 package fintrack.ui;
 
 import fintrack.db.AddFutureExpenseConnection;
+import fintrack.db.AddTodayExpenseConnection;
+import fintrack.db.RemoveFutureExpenseConnection;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -13,9 +15,12 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
+
 import com.toedter.calendar.JDateChooser;
 
 public class AddFutureExpense extends JPanel {
@@ -143,18 +148,18 @@ public class AddFutureExpense extends JPanel {
         scrollPane.setBorder(null); // Remove scroll pane border
         futureExpensesPanel.add(scrollPane, BorderLayout.CENTER);
 
-        addExpense("18-11-2025", "100", "Food");
-        addExpense("18-11-2025", "50", "Transportation");
-        addExpense("18-11-2025", "200", "Shopping");
-        addExpense("18-11-2025", "100", "Food");
-        addExpense("18-11-2025", "50", "Transportation");
-        addExpense("18-11-2025", "200", "Shopping");
-        addExpense("18-11-2025", "100", "Food");
-        addExpense("18-11-2025", "50", "Transportation");
-        addExpense("18-11-2025", "200", "Shopping");
-        addExpense("18-11-2025", "100", "Food");
-        addExpense("18-11-2025", "50", "Transportation");
-        addExpense("18-05-2024", "200", "Shopping");
+        addExpense("18-JAN-25", "100", "Food");
+        addExpense("18-JAN-25", "50", "Transportation");
+        addExpense("18-JAN-25", "200", "Shopping");
+        addExpense("18-JAN-25", "100", "Food");
+        addExpense("18-JAN-25", "50", "Transportation");
+        addExpense("18-JAN-25", "200", "Shopping");
+        addExpense("18-JAN-25", "100", "Food");
+        addExpense("18-JAN-25", "50", "Transportation");
+        addExpense("18-JAN-25", "200", "Shopping");
+        addExpense("18-JAN-25", "100", "Food");
+        addExpense("18-JAN-25", "50", "Transportation");
+        addExpense("19-MAY-24", "344", "Taxes");
 
         // Add futureExpensesPanel to the bottom section with a border
         add(futureExpensesPanel, BorderLayout.CENTER);
@@ -171,20 +176,20 @@ public class AddFutureExpense extends JPanel {
     }
 
     private void addExpense(String date, String amount, String category) {
-        tableModel.addRow(new Object[] { date, "$" + amount, category });
+        tableModel.addRow(new Object[] { date, amount, category });
     }
 
     private void checkFutureExpenses() {
         LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yy");
+        String formattedToday = today.format(formatter);
         List<Object[]> matchingExpenses = new ArrayList<>();
 
         // Iterate through the table rows to find matching dates
         for (int i = 0; i < tableModel.getRowCount(); i++) {
             String dateStr = (String) tableModel.getValueAt(i, 0);
-            LocalDate expenseDate = LocalDate.parse(dateStr, formatter);
 
-            if (expenseDate.equals(today)) {
+            if (formattedToday.equalsIgnoreCase(dateStr)) {
                 // Collect matching expense details
                 Object[] row = new Object[tableModel.getColumnCount()];
                 for (int j = 0; j < tableModel.getColumnCount(); j++) {
@@ -207,37 +212,49 @@ public class AddFutureExpense extends JPanel {
                         JOptionPane.QUESTION_MESSAGE);
 
                 if (result == JOptionPane.YES_OPTION) {
-                    JPanel panel = new JPanel(new GridLayout(1, 2, 5, 5));
+                    JPanel panel = new JPanel(new GridLayout(2, 2, 5, 5));
                     JTextField timeField = new JTextField();
                     panel.add(new JLabel("Enter Expense Time: "));
                     panel.add(timeField);
+                    JTextArea descriptionArea = new JTextArea();
+                    panel.add(new JLabel("Enter Description: "));
+                    panel.add(descriptionArea);
 
                     // Show option dialog
-                    int val = JOptionPane.showOptionDialog(this, panel, "Expense Time",
+                    int val = JOptionPane.showOptionDialog(this, panel, "Expense Time and Description",
                             JOptionPane.OK_OPTION,
                             JOptionPane.PLAIN_MESSAGE, null, new String[] { "Save" }, null);
                     if (val != JOptionPane.OK_OPTION)
                         return;
-                    // try {
-                    // new AddTodayExpenseConnection(SigninUi.Email, "" + expense[0],
-                    // Integer.parseInt("" + expense[1]), timeField.getText(), "" + expense[2],
-                    // descriptionArea.getText());
-                    // new RemoveFutureExpenseConnection(SigninUi.Email, "" + expense[0],
-                    // Integer.parseInt("" + expense[1]), "" + expense[2]);
-                    // } catch (Exception e) {
-                    // JOptionPane.showMessageDialog(this, "Some error occure!", "ERROR",
-                    // JOptionPane.ERROR_MESSAGE);
-                    // }
-                    System.out.println("Expense confirmed: " + expense[1]);
+                    else if (timeField.getText().isEmpty() || descriptionArea.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "Enter Time and Description Correctly.", "Invalid Input",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    try {
+                        new AddTodayExpenseConnection(SigninUi.Email, "" + formattedToday,
+                                Integer.parseInt("" + expense[1]), timeField.getText(), "" + expense[2],
+                                descriptionArea.getText());
+                        new RemoveFutureExpenseConnection(SigninUi.Email, "" + formattedToday,
+                                Integer.parseInt("" + expense[1]), "" + expense[2]);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Some error occure!", "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                                return;
+                    }
+                    JOptionPane.showMessageDialog(this, "Expense confirmed", "Conformation",
+                            JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    // try {
-                    // new RemoveFutureExpenseConnection(SigninUi.Email, "" + expense[0],
-                    // Integer.parseInt("" + expense[1]), "" + expense[2]);
-                    // } catch (Exception e) {
-                    // JOptionPane.showMessageDialog(this, "Some error occure!", "ERROR",
-                    // JOptionPane.ERROR_MESSAGE);
-                    // }
-                    System.out.println("Expense cancelled: " + expense[1]);
+                    try {
+                        new RemoveFutureExpenseConnection(SigninUi.Email, "" + formattedToday,
+                                Integer.parseInt("" + expense[1]), "" + expense[2]);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Some error occure!", "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                                return;
+                    }
+                    JOptionPane.showMessageDialog(this, "Expense cancelled", "Cancelled",
+                            JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }

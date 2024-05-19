@@ -64,7 +64,7 @@ public class DisplayTodayExpense extends JPanel {
     }
 
     private void addExpense(String time, String amount, String category) {
-        tableModel.addRow(new Object[] { time, "$" + amount, category });
+        tableModel.addRow(new Object[] { time, amount, category });
     }
 
     // Custom TableCellRenderer to center align cell contents

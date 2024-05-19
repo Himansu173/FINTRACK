@@ -5,7 +5,6 @@ public class RemoveFutureExpenseConnection {
             throws Exception {
         String qry = "DELETE FROM FUTURE_EXPENSE WHERE EMAIL= '" + email + "' AND  EXPENSE_DATE= TO_DATE('" + date
                 + "', 'DD-MON-YY') AND AMOUNT= " + amount + " AND CATEGORY= '" + category + "' ";
-                System.out.println(qry);
         int rs = GlobalConnection.stm.executeUpdate(qry);
         if (rs > 0) {
             System.out.println(rs + " row(s) affected.");
