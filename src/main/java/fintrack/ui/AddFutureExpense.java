@@ -1,8 +1,8 @@
 package fintrack.ui;
 
-import fintrack.db.AddFutureExpenseConnection;
-import fintrack.db.AddTodayExpenseConnection;
-import fintrack.db.RemoveFutureExpenseConnection;
+import fintrack.db.AddFutureExpenseDB;
+import fintrack.db.AddTodayExpenseDB;
+import fintrack.db.RemoveFutureExpenseDB;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -99,7 +99,7 @@ public class AddFutureExpense extends JPanel {
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    new AddFutureExpenseConnection(SigninUi.Email,
+                    new AddFutureExpenseDB(SigninUi.Email,
                             futureDate.format(DateTimeFormatter.ofPattern("dd-MMM-yy")),
                             Integer.parseInt(amount), category);
                     amountField.setText("");
@@ -232,10 +232,10 @@ public class AddFutureExpense extends JPanel {
                         return;
                     }
                     try {
-                        new AddTodayExpenseConnection(SigninUi.Email, "" + formattedToday,
+                        new AddTodayExpenseDB(SigninUi.Email, "" + formattedToday,
                                 Integer.parseInt("" + expense[1]), timeField.getText(), "" + expense[2],
                                 descriptionArea.getText());
-                        new RemoveFutureExpenseConnection(SigninUi.Email, "" + formattedToday,
+                        new RemoveFutureExpenseDB(SigninUi.Email, "" + formattedToday,
                                 Integer.parseInt("" + expense[1]), "" + expense[2]);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, "Some error occure!", "ERROR",
@@ -246,7 +246,7 @@ public class AddFutureExpense extends JPanel {
                             JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     try {
-                        new RemoveFutureExpenseConnection(SigninUi.Email, "" + formattedToday,
+                        new RemoveFutureExpenseDB(SigninUi.Email, "" + formattedToday,
                                 Integer.parseInt("" + expense[1]), "" + expense[2]);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, "Some error occure!", "ERROR",

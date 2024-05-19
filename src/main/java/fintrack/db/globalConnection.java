@@ -17,10 +17,10 @@ public class GlobalConnection {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             con = DriverManager.getConnection(url, username, password);
             stm = con.createStatement();
-            new CreateTableConnection();
+            new CreateTableDB();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Some error occure. please reopen the application.",
-                    "Server Error",
+            JOptionPane.showMessageDialog(null, "Some error occure. please check the connections.",
+                    "Database Error",
                     JOptionPane.ERROR_MESSAGE);
         }
     }

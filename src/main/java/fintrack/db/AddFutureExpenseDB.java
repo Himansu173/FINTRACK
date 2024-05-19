@@ -2,8 +2,8 @@ package fintrack.db;
 
 import javax.swing.JOptionPane;
 
-public class AddFutureExpenseConnection {
-    public AddFutureExpenseConnection(String email, String date, int amount, String category)
+public class AddFutureExpenseDB {
+    public AddFutureExpenseDB(String email, String date, int amount, String category)
             throws Exception {
         String qry = "INSERT INTO FUTURE_EXPENSE (EMAIL, EXPENSE_DATE, AMOUNT, CATEGORY) VALUES ('" + email
                 + "', TO_DATE('" + date + "', 'DD-MON-YY'), " + amount + ", '" + category + "')";

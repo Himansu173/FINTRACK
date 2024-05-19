@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 
 import fintrack.App;
+import fintrack.db.SigninDB;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,6 +17,7 @@ public class SigninUi extends JPanel {
     JTextField usernameTextField;
     JPasswordField passwordField;
     public static String Email;
+
     public SigninUi() {
         // Set layout to null to make the SigninUi panel cover the whole area
         setLayout(null);
@@ -114,8 +116,13 @@ public class SigninUi extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Email = usernameTextField.getText();
                 String password = new String(passwordField.getPassword());
-                System.out.println("Username: " + Email);
-                System.out.println("Password: " + password);
+                try {
+                    new SigninDB(Email, password);
+                } catch (Exception ee) {
+                    JOptionPane.showMessageDialog(SigninUi.this, "You are not registered.", "Invalid Login",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
                         App.frame.getContentPane().removeAll();

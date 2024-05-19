@@ -3,7 +3,7 @@ package fintrack.ui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import fintrack.db.AddTodayExpenseConnection;
+import fintrack.db.AddTodayExpenseDB;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -95,7 +95,7 @@ public class AddTodayExpense extends JPanel {
                     String category = (String) categoryComboBox.getSelectedItem();
                     String description = descriptionArea.getText();
                     // Processing the input
-                    new AddTodayExpenseConnection(SigninUi.Email, LocalDate.now().format(formatter), amount, time, category, description);
+                    new AddTodayExpenseDB(SigninUi.Email, LocalDate.now().format(formatter), amount, time, category, description);
                     // Clear fields after adding expense
                     amountField.setText("");
                     timeField.setText("");

@@ -2,10 +2,17 @@ package fintrack.ui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import org.w3c.dom.events.MouseEvent;
+
+import fintrack.db.ProfileDB;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ProfileUi extends JPanel {
     private JLabel nameLabel;
@@ -21,6 +28,15 @@ public class ProfileUi extends JPanel {
         setBorder(new EmptyBorder(10, 10, 10, 10));
         setBackground(Color.WHITE);
 
+        String data[];
+        try {
+            data = ProfileDB.getDetails(SigninUi.Email);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Profile not found!", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         // Create the top panel for the user image
         JPanel topPanel = new JPanel();
         topPanel.setBackground(Color.WHITE);
@@ -30,7 +46,12 @@ public class ProfileUi extends JPanel {
         JLabel userImageLabel = new JLabel();
         userImageLabel.setBorder(new EmptyBorder(40, 0, 40, 0));
         userImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        ImageIcon imageIcon = new ImageIcon(new File("src//main//resource//maleProfile.png").getAbsolutePath());
+        ImageIcon imageIcon;
+        if (data[4].equalsIgnoreCase("Female")) {
+            imageIcon = new ImageIcon(new File("src//main//resource//femaleProfile.png").getAbsolutePath());
+        } else {
+            imageIcon = new ImageIcon(new File("src//main//resource//maleProfile.png").getAbsolutePath());
+        }
         Image image = imageIcon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
         userImageLabel.setIcon(new ImageIcon(image));
         topPanel.add(userImageLabel, BorderLayout.CENTER);
@@ -53,12 +74,12 @@ public class ProfileUi extends JPanel {
         dataPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
         // Add profile data fields in titled panels
-        nameLabel = addProfileField(dataPanel, "Name", "John Doe");
-        emailLabel = addProfileField(dataPanel, "Email", "john.doe@example.com");
-        phoneLabel = addProfileField(dataPanel, "Phone", "+1234567890");
-        professionLabel = addProfileField(dataPanel, "Profession", "Teacher");
-        genderLabel = addProfileField(dataPanel, "Gender", "Male");
-        ageLabel = addProfileField(dataPanel, "Age", "30");
+        nameLabel = addProfileField(dataPanel, "Name", data[0]);
+        emailLabel = addProfileField(dataPanel, "Email", SigninUi.Email);
+        phoneLabel = addProfileField(dataPanel, "Phone", data[1]);
+        professionLabel = addProfileField(dataPanel, "Profession", data[2]);
+        ageLabel = addProfileField(dataPanel, "Age", data[3]);
+        genderLabel = addProfileField(dataPanel, "Gender", data[4]);
 
         // Create buttons
         JButton changePasswordButton = new JButton("Change Password");
@@ -100,10 +121,19 @@ public class ProfileUi extends JPanel {
                         JOptionPane.showMessageDialog(dataPanel, "New password and re-entered password do not match.",
                                 "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        // Perform password change logic
-                        // For demo purpose, just displaying the entered passwords
+                        try {
+                            new ProfileDB().changePassword(SigninUi.Email, oldPassword, newPassword);
+                        } catch (Exception ee) {
+                            System.out.println(ee);
+                            JOptionPane.showMessageDialog(dataPanel,
+                                    "Invalid Password",
+                                    "ERROR",
+                                    JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
                         JOptionPane.showMessageDialog(dataPanel,
-                                "Old Password: " + oldPassword + "\nNew Password: " + newPassword, "Password Changed",
+                                "Password Changed.",
+                                "Successful",
                                 JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
@@ -121,7 +151,7 @@ public class ProfileUi extends JPanel {
                 JTextField phoneField = new JTextField(
                         phoneLabel.getText().substring(phoneLabel.getText().indexOf(":") + 1).trim());
                 JTextField professionField = new JTextField(
-                    professionLabel.getText().substring(professionLabel.getText().indexOf(":") + 1).trim());
+                        professionLabel.getText().substring(professionLabel.getText().indexOf(":") + 1).trim());
                 JTextField ageField = new JTextField(
                         ageLabel.getText().substring(ageLabel.getText().indexOf(":") + 1).trim());
                 panel.add(new JLabel("Name:"));
@@ -141,10 +171,23 @@ public class ProfileUi extends JPanel {
                 // Process result
                 if (result == JOptionPane.OK_OPTION) {
                     // Update profile details
-                    nameLabel.setText(nameField.getText());
-                    phoneLabel.setText(phoneField.getText());
-                    professionLabel.setText(professionField.getText());
-                    ageLabel.setText(ageField.getText());
+                    try {
+                        new ProfileDB().editProfile(SigninUi.Email, nameField.getText(),
+                                Integer.parseInt(phoneField.getText()), professionField.getText(),
+                                Integer.parseInt(ageField.getText()));
+                    } catch (Exception ee) {
+                        System.out.println(ee);
+                        JOptionPane.showMessageDialog(dataPanel,
+                                "Unable to Save Changes.",
+                                "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    MainUi.mainUiContent.removeAll();
+                    MainUi.mainUiContent.add(new ProfileUi(), BorderLayout.CENTER);
+                    MainUi.mainUiContent.revalidate();
+                    MainUi.mainUiContent.repaint();
+                    MainUi.nameLabel.setText("Hello, " + nameField.getText());
                 }
             }
         });
@@ -158,6 +201,8 @@ public class ProfileUi extends JPanel {
                 JTextField budgetField = new JTextField();
                 panel.add(new JLabel("Monthly Budget:"));
                 panel.add(budgetField);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yy");
+                String formattedDate = LocalDate.now().format(formatter);
 
                 // Show option dialog
                 int result = JOptionPane.showOptionDialog(dataPanel, panel, "Set Budget", JOptionPane.OK_CANCEL_OPTION,
@@ -169,10 +214,13 @@ public class ProfileUi extends JPanel {
                         int budget = Integer.parseInt(budgetField.getText());
                         JOptionPane.showMessageDialog(dataPanel, "Monthly Budget: " + budget, "Budget Set",
                                 JOptionPane.INFORMATION_MESSAGE);
+                        new ProfileDB().setBudget(SigninUi.Email, formattedDate, budget);
                     } catch (NumberFormatException ne) {
                         JOptionPane.showMessageDialog(dataPanel, "Enter Budget correctly", "Invalid Budget",
                                 JOptionPane.ERROR_MESSAGE);
-
+                    } catch (Exception ee) {
+                        JOptionPane.showMessageDialog(dataPanel, "Unable to save the budget.", "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }

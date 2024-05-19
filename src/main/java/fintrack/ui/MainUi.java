@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import fintrack.App;
+import fintrack.db.ProfileDB;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,10 +17,20 @@ public class MainUi extends JPanel {
 
         private static final int ICON_WIDTH = 25; // Desired width of the icons
         private static final int ICON_HEIGHT = 25; // Desired height of the icons
+        public static JPanel mainUiContent;
+        public static JLabel nameLabel;
 
         public MainUi() {
                 // Set layout for the dashboard panel
                 setLayout(new BorderLayout());
+                String data[];
+                try {
+                        data = ProfileDB.getDetails(SigninUi.Email);
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Profile not found!", "ERROR",
+                                        JOptionPane.ERROR_MESSAGE);
+                        return;
+                }
 
                 // Create side bar menu panel
                 JPanel sideBarMenu = new JPanel();
@@ -31,21 +42,28 @@ public class MainUi extends JPanel {
                 sideBarMenu.setPreferredSize(new Dimension(80, getHeight()));
 
                 final JLabel homeLabel = new JLabel(
-                new ImageIcon(new ImageIcon(new File("src//main//resource//home.png").getAbsolutePath()).getImage().getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH))
-                );
+                                new ImageIcon(new ImageIcon(new File("src//main//resource//home.png").getAbsolutePath())
+                                                .getImage()
+                                                .getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH)));
                 homeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 final JLabel budgetLabel = new JLabel(
-                        new ImageIcon(new ImageIcon(new File("src//main//resource//budget.png").getAbsolutePath()).getImage().getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH))
-                );
+                                new ImageIcon(new ImageIcon(
+                                                new File("src//main//resource//budget.png").getAbsolutePath())
+                                                .getImage()
+                                                .getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH)));
                 budgetLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 final JLabel historyLabel = new JLabel(
-                new ImageIcon(new ImageIcon(new File("src//main//resource//history.png").getAbsolutePath()).getImage().getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH))
-                
+                                new ImageIcon(new ImageIcon(
+                                                new File("src//main//resource//history.png").getAbsolutePath())
+                                                .getImage()
+                                                .getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH))
+
                 );
                 historyLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 final JLabel profileLabel = new JLabel(
-                new ImageIcon(new ImageIcon(new File("src//main//resource//user.png").getAbsolutePath()).getImage().getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH))
-                );
+                                new ImageIcon(new ImageIcon(new File("src//main//resource//user.png").getAbsolutePath())
+                                                .getImage()
+                                                .getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH)));
                 profileLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
                 // Add gaps between labels
@@ -73,15 +91,22 @@ public class MainUi extends JPanel {
 
                 // Create a power button label with icon
                 JLabel powerButtonLabel = new JLabel(
-                new ImageIcon(new ImageIcon(new File("src//main//resource//power.png").getAbsolutePath()).getImage().getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH))
-                );
+                                new ImageIcon(new ImageIcon(
+                                                new File("src//main//resource//power.png").getAbsolutePath()).getImage()
+                                                .getScaledInstance(ICON_WIDTH, ICON_HEIGHT, Image.SCALE_SMOOTH)));
                 powerButtonLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 // Create profile image label
                 profilePanel.add(powerButtonLabel, powerButtonConstraints);
-                JLabel profileImageLabel = new JLabel(
-                new ImageIcon(new ImageIcon(new File("src//main//resource//maleProfile.png").getAbsolutePath()).getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH))
-                );
+
                 // Add profileImageLabel to profilePanel
+                ImageIcon imageIcon;
+                if (data[4].equalsIgnoreCase("Female")) {
+                        imageIcon = new ImageIcon(new File("src//main//resource//femaleProfile.png").getAbsolutePath());
+                } else {
+                        imageIcon = new ImageIcon(new File("src//main//resource//maleProfile.png").getAbsolutePath());
+                }
+                JLabel profileImageLabel = new JLabel(
+                                new ImageIcon(imageIcon.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH)));
 
                 // Create constraints for powerButtonLabel
                 GridBagConstraints profileImageConstraints = new GridBagConstraints();
@@ -93,15 +118,16 @@ public class MainUi extends JPanel {
                 profilePanel.add(profileImageLabel, profileImageConstraints);
 
                 // Load the image for the logo
-                ImageIcon logoIcon=new ImageIcon(new ImageIcon(new File("src//main//resource//maleProfile.png").getAbsolutePath()).getImage().getScaledInstance(55, 55, Image.SCALE_SMOOTH));
-                
+                ImageIcon logoIcon = new ImageIcon(
+                                new ImageIcon(new File("src//main//resource//maleProfile.png").getAbsolutePath())
+                                                .getImage().getScaledInstance(55, 55, Image.SCALE_SMOOTH));
 
                 // Create menu labels with icons
                 JLabel logoLabel = new JLabel(logoIcon);
 
                 // Create label for person's name
-                JLabel nameLabel = new JLabel("Hello, John");
-                nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0)); // Add left inset
+                nameLabel = new JLabel("Hello, " + data[0]);
+                nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0)); // Add left inset
                 Font font = nameLabel.getFont();
                 nameLabel.setFont(new Font(font.getName(), Font.BOLD, 23));
                 nameLabel.setForeground(Color.BLACK);
@@ -115,7 +141,7 @@ public class MainUi extends JPanel {
                 topPanel.add(profilePanel, BorderLayout.EAST);
 
                 // Create dashboard content panel
-                final JPanel mainUiContent = new JPanel(new BorderLayout());
+                mainUiContent = new JPanel(new BorderLayout());
                 mainUiContent.setBackground(Color.LIGHT_GRAY);
                 mainUiContent.setBorder(BorderFactory.createCompoundBorder(
                                 BorderFactory.createLineBorder(Color.WHITE),

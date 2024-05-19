@@ -1,4 +1,3 @@
-
 package fintrack.ui;
 
 import javax.swing.*;
@@ -7,11 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+
 import fintrack.App;
+import fintrack.db.SignupDB;
 
 public class SignupUi extends JPanel {
 
@@ -19,6 +17,7 @@ public class SignupUi extends JPanel {
     private JTextField emailTextField;
     private JTextField phoneNumberTextField;
     private JTextField professionTextField;
+    private JTextField ageTextField;
     private JPasswordField passwordField;
     private JPasswordField confirmPasswordField;
     private JRadioButton maleRadioButton;
@@ -42,7 +41,6 @@ public class SignupUi extends JPanel {
                 super.paintComponent(g);
                 // Draw the background image
                 backgroundImage = new ImageIcon(new File("src//main//resource//bg.jpg").getAbsolutePath());
-
                 g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), this);
             }
         };
@@ -55,7 +53,7 @@ public class SignupUi extends JPanel {
 
         // Calculate the size and position of the content panel
         int contentWidth = 500; // Adjust as needed
-        int contentHeight = 500; // Adjust as needed
+        int contentHeight = 540; // Adjust as needed
         int contentX = (screenSize.width - contentWidth) / 2; // Center horizontally
         int contentY = (screenSize.height - contentHeight) / 2; // Center vertically
 
@@ -124,23 +122,35 @@ public class SignupUi extends JPanel {
         professionTextField.setBounds(fieldX, labelY + 120, fieldWidth, fieldHeight);
         contentPanel.add(professionTextField);
 
+        // Create a label for "Age"
+        JLabel ageLabel = new JLabel("Age");
+        // Set the position and size of the label
+        ageLabel.setBounds(labelX, labelY + 160, 100, 20);
+        contentPanel.add(ageLabel);
+
+        // Create a text field for Age
+        ageTextField = new JTextField();
+        // Set the position and size of the text field
+        ageTextField.setBounds(fieldX, labelY + 160, fieldWidth, fieldHeight);
+        contentPanel.add(ageTextField);
+
         // Create a label for "Gender"
         JLabel genderLabel = new JLabel("Gender");
         // Set the position and size of the label
-        genderLabel.setBounds(labelX, labelY + 160, 100, 20);
+        genderLabel.setBounds(labelX, labelY + 200, 100, 20);
         contentPanel.add(genderLabel);
 
         // Create radio buttons for gender selection
         maleRadioButton = new JRadioButton("Male");
         maleRadioButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        maleRadioButton.setBounds(fieldX, labelY + 160, 80, 20);
+        maleRadioButton.setBounds(fieldX, labelY + 200, 80, 20);
         maleRadioButton.setBackground(new Color(0, 0, 0, 0));
         contentPanel.add(maleRadioButton);
 
         femaleRadioButton = new JRadioButton("Female");
         femaleRadioButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         femaleRadioButton.setBackground(new Color(0, 0, 0, 0));
-        femaleRadioButton.setBounds(fieldX + 80, labelY + 160, 100, 20);
+        femaleRadioButton.setBounds(fieldX + 80, labelY + 200, 100, 20);
         contentPanel.add(femaleRadioButton);
 
         // Create a button group for radio buttons
@@ -151,32 +161,32 @@ public class SignupUi extends JPanel {
         // Create a label for "Password"
         JLabel passwordLabel = new JLabel("Password");
         // Set the position and size of the label
-        passwordLabel.setBounds(labelX, labelY + 200, 100, 20);
+        passwordLabel.setBounds(labelX, labelY + 240, 100, 20);
         contentPanel.add(passwordLabel);
 
         // Create a password field for Password
         passwordField = new JPasswordField();
         // Set the position and size of the password field
-        passwordField.setBounds(fieldX, labelY + 200, fieldWidth, fieldHeight);
+        passwordField.setBounds(fieldX, labelY + 240, fieldWidth, fieldHeight);
         contentPanel.add(passwordField);
 
         // Create a label for "Confirm Password"
         JLabel confirmPasswordLabel = new JLabel("Confirm Password");
         // Set the position and size of the label
-        confirmPasswordLabel.setBounds(labelX, labelY + 240, 120, 20);
+        confirmPasswordLabel.setBounds(labelX, labelY + 280, 120, 20);
         contentPanel.add(confirmPasswordLabel);
 
         // Create a password field for Confirm Password
         confirmPasswordField = new JPasswordField();
         // Set the position and size of the password field
-        confirmPasswordField.setBounds(fieldX, labelY + 240, fieldWidth, fieldHeight);
+        confirmPasswordField.setBounds(fieldX, labelY + 280, fieldWidth, fieldHeight);
         contentPanel.add(confirmPasswordField);
 
         // Create a sign-up button
         JButton signUpButton = new JButton("Sign Up");
         signUpButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         // Set the position and size of the button
-        signUpButton.setBounds(labelX, labelY + 280, 200, 30);
+        signUpButton.setBounds(labelX, labelY + 320, 200, 30);
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -185,11 +195,12 @@ public class SignupUi extends JPanel {
                 String email = emailTextField.getText();
                 String phoneNumber = phoneNumberTextField.getText();
                 String profession = professionTextField.getText();
+                String age = ageTextField.getText();
                 String password = String.valueOf(passwordField.getPassword());
                 String confirmPassword = String.valueOf(confirmPasswordField.getPassword());
 
                 if (fullName.isEmpty() || email.isEmpty() || phoneNumber.isEmpty() ||
-                        profession.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                        profession.isEmpty() || age.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                     JOptionPane.showMessageDialog(mainPanel, "All fields are required.",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 } else if (!password.equals(confirmPassword)) {
@@ -197,14 +208,30 @@ public class SignupUi extends JPanel {
                             "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     // All fields are filled and passwords match
-                    StringBuilder message = new StringBuilder();
-                    message.append("Full Name: ").append(fullName).append("\n");
-                    message.append("Email: ").append(email).append("\n");
-                    message.append("Phone Number: ").append(phoneNumber).append("\n");
-                    message.append("Profession: ").append(profession).append("\n");
-                    message.append("Gender: ").append(maleRadioButton.isSelected() ? "Male" : "Female").append("\n");
+                    // Validate age input
+                    try {
+                        int ageValue = Integer.parseInt(age);
+                        if (ageValue <= 0) {
+                            throw new NumberFormatException();
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(mainPanel, "Age must be a positive integer.",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    // save data in databse
+                    try {
+                        new SignupDB(email, fullName, Integer.parseInt(phoneNumber), profession, Integer.parseInt(age),
+                                maleRadioButton.isSelected() ? "Male" : "Female", password);
+                    } catch (Exception ee) {
+                        JOptionPane.showMessageDialog(mainPanel, "Some error occurred.", "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     // Display the message
-                    JOptionPane.showMessageDialog(mainPanel, "Please login to contineu.", "Signup Successful",
+                    JOptionPane.showMessageDialog(mainPanel, "You are registered, Please login to continue.",
+                            "Signup Successful",
                             JOptionPane.INFORMATION_MESSAGE);
                     SwingUtilities.invokeLater(new Runnable() {
                         public void run() {
@@ -226,7 +253,7 @@ public class SignupUi extends JPanel {
         int haveAccountLabelHeight = 20; // Adjust as needed
         int haveAccountLabelX = (contentWidth - haveAccountLabelWidth - 50) / 2; // Place it centered with some spacing
                                                                                  // to the right
-        int haveAccountLabelY = labelY + 330; // Adjust as needed
+        int haveAccountLabelY = labelY + 370; // Adjust as needed
         haveAccountLabel.setBounds(haveAccountLabelX, haveAccountLabelY, haveAccountLabelWidth, haveAccountLabelHeight);
         contentPanel.add(haveAccountLabel);
 
@@ -252,16 +279,6 @@ public class SignupUi extends JPanel {
                     }
                 });
             }
-
-            // @Override
-            // public void mouseEntered(MouseEvent e) {
-            // signInLabel.setForeground(Color.RED);
-            // }
-
-            // @Override
-            // public void mouseExited(MouseEvent e) {
-            // signInLabel.setForeground(Color.BLUE);
-            // }
         });
 
         contentPanel.add(signInLabel);
