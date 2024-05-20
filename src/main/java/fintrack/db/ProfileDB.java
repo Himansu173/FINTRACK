@@ -1,6 +1,5 @@
 package fintrack.db;
 
-import java.io.EOFException;
 import java.sql.ResultSet;
 
 public class ProfileDB {
@@ -10,12 +9,12 @@ public class ProfileDB {
         String data[] = new String[5];
         if (rs.next()) {
             data[0] = new String(rs.getString("name"));
-            data[1] = new String("" + rs.getInt("phone_number"));
+            data[1] = new String("" + rs.getInt("phone"));
             data[2] = new String(rs.getString("profession"));
             data[3] = new String("" + rs.getInt("age"));
             data[4] = new String(rs.getString("gender"));
         } else {
-            throw new EOFException();
+            throw new Exception();
         }
         return data;
     }
@@ -28,7 +27,7 @@ public class ProfileDB {
         if (rs > 0) {
             System.out.println("password updated.");
         } else {
-            throw new EOFException();
+            throw new Exception();
         }
     }
 
@@ -40,7 +39,7 @@ public class ProfileDB {
         if (rs > 0) {
             System.out.println("profile eddited.");
         } else {
-            throw new EOFException();
+            throw new Exception();
         }
     }
 
@@ -61,7 +60,7 @@ public class ProfileDB {
             if (val > 0) {
                 System.out.println("budget inserted.");
             } else {
-                throw new EOFException();
+                throw new Exception();
             }
         }
     }

@@ -1,6 +1,9 @@
 package fintrack.ui;
 
 import com.toedter.calendar.JDateChooser;
+
+import fintrack.db.ExpenseDB;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -16,6 +19,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HistoryUi extends JPanel {
@@ -77,7 +82,7 @@ public class HistoryUi extends JPanel {
         checkDatePanel.add(checkLabel);
         dateChooser = new JDateChooser();
         dateChooser.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        dateChooser.setDateFormatString("dd-MM-yyyy");
+        dateChooser.setDateFormatString("dd-MMM-yyyy");
         dateChooser.setDate(new Date()); // Set default to today's date
         dateChooser.setMaxSelectableDate(new Date()); // Allow only past dates
         dateChooser.setPreferredSize(new Dimension(150, 25));
@@ -164,7 +169,6 @@ public class HistoryUi extends JPanel {
             dataset.addValue(310, "Expenses", "Shopping");
             dataset.addValue(160, "Expenses", "Others");
         }
-        
 
         return dataset;
     }
@@ -200,8 +204,8 @@ public class HistoryUi extends JPanel {
                         new Color(255, 200, 100),
                         new Color(200, 200, 200),
                         new Color(255, 150, 150),
-                        new Color(100, 255, 255), 
-                        new Color(200, 100, 255), 
+                        new Color(100, 255, 255),
+                        new Color(200, 100, 255),
                         new Color(255, 100, 200)
                 });
         plot.setRenderer(renderer);
@@ -239,24 +243,30 @@ public class HistoryUi extends JPanel {
     private void searchHistory() {
         // Get the selected date from the date chooser
         Date selectedDate = dateChooser.getDate();
-        // Implement search functionality using the selectedDate
-        // Dummy data for demonstration
-        Object[][] data = {
-                { "2024-05-15", "10:00 AM", "$50", "Food", "Groceries" },
-                { "2024-05-15", "02:30 PM", "$20", "Entertainment", "Movie tickets" },
-                { "2024-05-15", "06:45 PM", "$30", "Shopping", "Clothing" },
-                { "2024-05-15", "09:00 PM", "$15", "Others", "Miscellaneous" },
-                { "2024-05-16", "11:30 AM", "$40", "Food", "Restaurant" },
-                { "2024-05-16", "03:00 PM", "$25", "Transportation", "Gasoline" },
-                { "2024-05-16", "07:00 PM", "$10", "Utility", "Electricity bill" },
-                { "2024-05-16", "08:30 PM", "$50", "Entertainment", "Concert tickets" },
-                { "2024-05-16", "10:00 PM", "$20", "Others", "Miscellaneous" },
-                // Add more rows as needed
-        };
+        // Define the date format
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
 
-        String[] columns = { "Date", "Time", "Amount", "Category", "Description" };
+        // Format the selected date to a string
+        String formattedDate = formatter.format(selectedDate);
 
-        DefaultTableModel model = new DefaultTableModel(data, columns);
+        DefaultTableModel model = new DefaultTableModel(
+                new Object[] { "Date", "Time", "Amount", "Category", "Description" }, 0);
+
+        ResultSet expense;
+        try {
+            expense = ExpenseDB.returnExpenses(SigninUi.Email, formattedDate);
+            while (expense.next()) {
+                model.addRow(
+                        new Object[] { formatter.format(expense.getDate("EXPENSE_DATE")), expense.getString("TIME"),
+                                "" + expense.getInt("AMOUNT"),
+                                expense.getString("CATEGORY"), expense.getString("DESCRIPTION") });
+                ;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error in fatching expense.", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+        }
         historyTable.setModel(model);
         historyTable.setBorder(null); // Remove table border
         historyTable.getTableHeader().setBorder(null); // Remove header border

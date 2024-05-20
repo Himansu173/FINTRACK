@@ -10,6 +10,6 @@ public class HomeUi extends JPanel {
         add(new AddTodayExpense());
         add(new ExpenseTrend());
         add(new DisplayTodayExpense());
-        add(new AddFutureExpense());
+        add(new FutureExpense());
     }
 }

@@ -1,8 +1,7 @@
 package fintrack.ui;
 
-import fintrack.db.AddFutureExpenseDB;
-import fintrack.db.AddTodayExpenseDB;
-import fintrack.db.RemoveFutureExpenseDB;
+import fintrack.db.FutureExpenseDB;
+import fintrack.db.ExpenseDB;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -23,7 +23,7 @@ import java.util.Locale;
 
 import com.toedter.calendar.JDateChooser;
 
-public class AddFutureExpense extends JPanel {
+public class FutureExpense extends JPanel {
     private JTextField amountField;
     private JComboBox<String> categoryComboBox;
     private JDateChooser dateChooser;
@@ -32,7 +32,7 @@ public class AddFutureExpense extends JPanel {
     private DefaultTableModel tableModel;
     private Calendar calendar;
 
-    public AddFutureExpense() {
+    public FutureExpense() {
         setLayout(new BorderLayout());
 
         // Create panel for adding future expenses
@@ -84,7 +84,7 @@ public class AddFutureExpense extends JPanel {
 
                 // Check if any field is empty or if no date is selected
                 if (amount.isEmpty() || category.equals("-- select --") || dateChooser.getDate() == null) {
-                    JOptionPane.showMessageDialog(AddFutureExpense.this, "Please fill in all fields.", "Error",
+                    JOptionPane.showMessageDialog(FutureExpense.this, "Please fill in all fields.", "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return; // Exit the method if any field is empty or if no date is selected
                 }
@@ -95,23 +95,26 @@ public class AddFutureExpense extends JPanel {
                     if (selectedDate != null) {
                         futureDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     } else {
-                        JOptionPane.showMessageDialog(AddFutureExpense.this, "Please select a date.", "Error",
+                        JOptionPane.showMessageDialog(FutureExpense.this, "Please select a date.", "Error",
                                 JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-                    new AddFutureExpenseDB(SigninUi.Email,
+                    new FutureExpenseDB(SigninUi.Email,
                             futureDate.format(DateTimeFormatter.ofPattern("dd-MMM-yy")),
                             Integer.parseInt(amount), category);
-                    amountField.setText("");
-                    categoryComboBox.setSelectedItem("-- select --");
-                    dateChooser.setDate(null);
+                    // display updated value
+                    MainUi.mainUiContent.removeAll();
+                    MainUi.mainUiContent.add(new HomeUi(), BorderLayout.CENTER);
+                    MainUi.mainUiContent.revalidate
+                    ();
+                    MainUi.mainUiContent.repaint();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(AddFutureExpense.this, "Some Error occure!", "Error",
+                    JOptionPane.showMessageDialog(FutureExpense.this, "Some Error occure!", "Error",
                             JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                JOptionPane.showMessageDialog(AddFutureExpense.this, "The Future Expense Recorded.", "Successful",
+                JOptionPane.showMessageDialog(FutureExpense.this, "The Future Expense Recorded.", "Successful",
                         JOptionPane.INFORMATION_MESSAGE);
             }
         });
@@ -148,18 +151,17 @@ public class AddFutureExpense extends JPanel {
         scrollPane.setBorder(null); // Remove scroll pane border
         futureExpensesPanel.add(scrollPane, BorderLayout.CENTER);
 
-        addExpense("18-JAN-25", "100", "Food");
-        addExpense("18-JAN-25", "50", "Transportation");
-        addExpense("18-JAN-25", "200", "Shopping");
-        addExpense("18-JAN-25", "100", "Food");
-        addExpense("18-JAN-25", "50", "Transportation");
-        addExpense("18-JAN-25", "200", "Shopping");
-        addExpense("18-JAN-25", "100", "Food");
-        addExpense("18-JAN-25", "50", "Transportation");
-        addExpense("18-JAN-25", "200", "Shopping");
-        addExpense("18-JAN-25", "100", "Food");
-        addExpense("18-JAN-25", "50", "Transportation");
-        addExpense("19-MAY-24", "344", "Taxes");
+        ResultSet expense;
+        try {
+            expense = FutureExpenseDB.returnFutureExpense(SigninUi.Email);
+            while (expense.next()) {
+                addExpense(expense.getString("EXPENSE_DATE"), "" + expense.getInt("AMOUNT"),
+                        expense.getString("CATEGORY"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error in fatching future expense.", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
 
         // Add futureExpensesPanel to the bottom section with a border
         add(futureExpensesPanel, BorderLayout.CENTER);
@@ -232,30 +234,34 @@ public class AddFutureExpense extends JPanel {
                         return;
                     }
                     try {
-                        new AddTodayExpenseDB(SigninUi.Email, "" + formattedToday,
+                        new ExpenseDB(SigninUi.Email, "" + formattedToday,
                                 Integer.parseInt("" + expense[1]), timeField.getText(), "" + expense[2],
                                 descriptionArea.getText());
-                        new RemoveFutureExpenseDB(SigninUi.Email, "" + formattedToday,
+                        FutureExpenseDB.RemoveFutureExpense(SigninUi.Email, "" + formattedToday,
                                 Integer.parseInt("" + expense[1]), "" + expense[2]);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, "Some error occure!", "ERROR",
                                 JOptionPane.ERROR_MESSAGE);
-                                return;
+                        return;
                     }
                     JOptionPane.showMessageDialog(this, "Expense confirmed", "Conformation",
                             JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     try {
-                        new RemoveFutureExpenseDB(SigninUi.Email, "" + formattedToday,
+                        FutureExpenseDB.RemoveFutureExpense(SigninUi.Email, "" + formattedToday,
                                 Integer.parseInt("" + expense[1]), "" + expense[2]);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, "Some error occure!", "ERROR",
                                 JOptionPane.ERROR_MESSAGE);
-                                return;
+                        return;
                     }
                     JOptionPane.showMessageDialog(this, "Expense cancelled", "Cancelled",
                             JOptionPane.INFORMATION_MESSAGE);
                 }
+                MainUi.mainUiContent.removeAll();
+                MainUi.mainUiContent.add(new HomeUi(), BorderLayout.CENTER);
+                MainUi.mainUiContent.revalidate();
+                MainUi.mainUiContent.repaint();
             }
         }
     }

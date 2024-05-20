@@ -1,9 +1,17 @@
 package fintrack.ui;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import fintrack.db.FutureExpenseDB;
+import fintrack.db.ExpenseDB;
+
 import java.awt.*;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class DisplayTodayExpense extends JPanel {
     private JTable expensesTable;
@@ -46,21 +54,20 @@ public class DisplayTodayExpense extends JPanel {
 
         add(tablePanel, BorderLayout.CENTER);
 
-        // Example: Add some dummy expense entries for today
-        addExpense("12:00 PM", "100", "Food");
-        addExpense("02:30 PM", "50", "Transportation");
-        addExpense("06:00 PM", "200", "Shopping");
-        addExpense("12:00 PM", "100", "Food");
-        addExpense("02:30 PM", "50", "Transportation");
-        addExpense("06:00 PM", "200", "Shopping");
-        addExpense("12:00 PM", "100", "Food");
-        addExpense("02:30 PM", "50", "Transportation");
-        addExpense("06:00 PM", "200", "Shopping");
-        addExpense("06:00 PM", "200", "Shopping");
-        addExpense("12:00 PM", "100", "Food");
-        addExpense("02:30 PM", "50", "Transportation");
-        addExpense("06:00 PM", "200", "Shopping");
-        // Add more dummy entries...
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yy");
+        String date = LocalDate.now().format(formatter);
+
+        // add data to the table
+        ResultSet expense;
+        try {
+            expense = ExpenseDB.returnExpenses(SigninUi.Email, date);
+            while (expense.next()) {
+                addExpense(expense.getString("TIME"), "" + expense.getInt("AMOUNT"), expense.getString("CATEGORY"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error in fatching today's expense.", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void addExpense(String time, String amount, String category) {

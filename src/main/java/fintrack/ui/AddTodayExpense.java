@@ -3,7 +3,7 @@ package fintrack.ui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import fintrack.db.AddTodayExpenseDB;
+import fintrack.db.ExpenseDB;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -95,12 +95,13 @@ public class AddTodayExpense extends JPanel {
                     String category = (String) categoryComboBox.getSelectedItem();
                     String description = descriptionArea.getText();
                     // Processing the input
-                    new AddTodayExpenseDB(SigninUi.Email, LocalDate.now().format(formatter), amount, time, category, description);
-                    // Clear fields after adding expense
-                    amountField.setText("");
-                    timeField.setText("");
-                    descriptionArea.setText("");
-                    categoryComboBox.setSelectedItem("-- select --");
+                    new ExpenseDB(SigninUi.Email, LocalDate.now().format(formatter), amount, time, category, description);
+                    
+                    //refresh the view
+                    MainUi.mainUiContent.removeAll();
+                    MainUi.mainUiContent.add(new HomeUi(), BorderLayout.CENTER);
+                    MainUi.mainUiContent.revalidate();
+                    MainUi.mainUiContent.repaint();
                 } catch (NumberFormatException ne) {
                     JOptionPane.showMessageDialog(AddTodayExpense.this, "Expense must be a Integer value", "Error",
                             JOptionPane.ERROR_MESSAGE);
