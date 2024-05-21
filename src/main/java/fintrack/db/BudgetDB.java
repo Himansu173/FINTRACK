@@ -40,8 +40,7 @@ public class BudgetDB {
     }
 
     public static void updateExpense(String email, String month, int amount) throws Exception {
-        String qry = "UPDATE BUDGET SET EXPENSE=EXPENSE+" + amount + ", TOTAL_BUDGET=TOTAL_BUDGET-" + amount
-                + " WHERE EMAIL='" + email + "' AND MONTH='" + month + "'";
+        String qry = "UPDATE BUDGET SET EXPENSE=EXPENSE+" + amount + " WHERE EMAIL='" + email + "' AND MONTH='" + month + "'";
         int val = GlobalConnection.stm.executeUpdate(qry);
         if (val > 0) {
             System.out.println("Expense updated");
