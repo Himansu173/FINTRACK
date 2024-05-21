@@ -11,6 +11,8 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import fintrack.db.ExpenseDB;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -132,41 +134,87 @@ public class ExpenseTrend extends JPanel {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy");
         LocalDate currentDate = LocalDate.now();
         LocalDate startDate = currentDate.minusDays(days - 1);
-
+        int expense = 0;
         switch (days) {
             case 7:
                 for (int i = 0; i < days; i++) {
                     LocalDate date = startDate.plusDays(i);
                     String day = date.format(formatter);
-                    dataset.addValue(generateRandomExpense(), "Expense", day);
+                    try {
+                        expense = ExpenseDB.getTotalExpenseOfTheDay(SigninUi.Email, day);
+                        System.out.println(expense);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Some error occure in the expense trend!", "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                        System.out.println(e);
+                    }
+                    dataset.addValue(expense, "Expense", day);
                 }
+                System.out.println();
                 break;
             case 30:
                 for (int i = 0; i < days / 2; i++) {
                     LocalDate date = startDate.plusDays(i * 2);
                     String day = date.format(formatter);
-                    dataset.addValue(generateRandomExpense(), "Expense", day);
+                    try {
+                        expense = ExpenseDB.getTotalExpense(SigninUi.Email, day, date.minusDays(2).format(formatter));
+                        System.out.println(expense);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Some error occure in the expense trend!", "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                        System.out.println(e);
+                    }
+                    dataset.addValue(expense, "Expense", day);
                 }
+                System.out.println();
                 break;
             case 90:
                 for (int i = 0; i < days / 6; i++) {
                     LocalDate date = startDate.plusDays(i * 6);
                     String day = date.format(formatter);
-                    dataset.addValue(generateRandomExpense(), "Expense", day);
+                    try {
+                        expense = ExpenseDB.getTotalExpense(SigninUi.Email, day, date.minusDays(6).format(formatter));
+                        System.out.println(expense);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Some error occure in the expense trend!", "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                        System.out.println(e);
+                    }
+                    dataset.addValue(expense, "Expense", day);
                 }
+                System.out.println();
                 break;
-            case 180:
+                case 180:
                 for (int i = 0; i < days / 12; i++) {
                     LocalDate date = startDate.plusDays(i * 12);
                     String day = date.format(formatter);
-                    dataset.addValue(generateRandomExpense(), "Expense", day);
+                    try {
+                        expense = ExpenseDB.getTotalExpense(SigninUi.Email, day, date.minusDays(12).format(formatter));
+                        System.out.println(expense);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Some error occure in the expense trend!", "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                        System.out.println(e);
+                    }
+                    dataset.addValue(expense, "Expense", day);
                 }
+                System.out.println();
                 break;
-            case 365:
+                case 365:
                 for (int i = 0; i < 12; i++) {
                     LocalDate date = startDate.plusMonths(i);
                     String day = date.format(formatter);
-                    dataset.addValue(generateRandomExpense(), "Expense", day);
+                    try {
+                        System.out.println(date.minusDays(30).format(formatter));
+                        System.out.println(day);
+                        System.out.println();
+                        expense = ExpenseDB.getTotalExpense(SigninUi.Email, day, date.minusDays(30).format(formatter));
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(this, "Some error occure in the expense trend!", "ERROR",
+                                JOptionPane.ERROR_MESSAGE);
+                        System.out.println(e);
+                    }
+                    dataset.addValue(expense, "Expense", day);
                 }
                 break;
             default:

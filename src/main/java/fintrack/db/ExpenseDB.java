@@ -23,4 +23,23 @@ public class ExpenseDB {
         ResultSet rs = GlobalConnection.stm.executeQuery(qry);
         return rs;
     }
+
+    public static int getTotalExpenseOfTheDay(String email, String date) throws Exception {
+        String qry = "SELECT SUM(AMOUNT) AS TOTAL FROM EXPENSE WHERE EMAIL = '" + email
+                + "' AND EXPENSE_DATE = TO_DATE('" + date + "', 'DD-MM-YY')";
+        ResultSet rs = GlobalConnection.stm.executeQuery(qry);
+        if (rs.next()) {
+            return rs.getInt("TOTAL");
+        }
+        return 0;
+    }
+
+    public static int getTotalExpense(String email, String startDate, String endSate) throws Exception {
+        String qry = "SELECT SUM(AMOUNT) AS total FROM expense WHERE email = 'himansu@123' AND EXPENSE_DATE <= TO_DATE('" + startDate + "', 'DD-MM-YY') AND EXPENSE_DATE > TO_DATE('" + endSate + "', 'DD-MM-YY')";
+        ResultSet rs = GlobalConnection.stm.executeQuery(qry);
+        if (rs.next()) {
+            return rs.getInt("TOTAL");
+        }
+        return 0;
+    }
 }
