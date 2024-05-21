@@ -5,6 +5,7 @@ import javax.swing.border.EmptyBorder;
 
 import org.w3c.dom.events.MouseEvent;
 
+import fintrack.db.BudgetDB;
 import fintrack.db.ProfileDB;
 
 import java.awt.*;
@@ -199,7 +200,7 @@ public class ProfileUi extends JPanel {
                 // Create a panel to hold the budget field
                 JPanel panel = new JPanel(new GridLayout(1, 2, 5, 5));
                 JTextField budgetField = new JTextField();
-                panel.add(new JLabel("Monthly Budget:"));
+                panel.add(new JLabel("Set Budget For The Month:"));
                 panel.add(budgetField);
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yy");
                 String formattedDate = LocalDate.now().format(formatter);
@@ -214,7 +215,7 @@ public class ProfileUi extends JPanel {
                         int budget = Integer.parseInt(budgetField.getText());
                         JOptionPane.showMessageDialog(dataPanel, "Monthly Budget: " + budget, "Budget Set",
                                 JOptionPane.INFORMATION_MESSAGE);
-                        new ProfileDB().setBudget(SigninUi.Email, formattedDate, budget);
+                        new BudgetDB().setBudget(SigninUi.Email, formattedDate, budget);
                     } catch (NumberFormatException ne) {
                         JOptionPane.showMessageDialog(dataPanel, "Enter Budget correctly", "Invalid Budget",
                                 JOptionPane.ERROR_MESSAGE);

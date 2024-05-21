@@ -4,7 +4,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
+import fintrack.db.BudgetDB;
+
 import java.awt.*;
+import java.sql.ResultSet;
 
 public class BudgetUi extends JPanel {
     private JTable budgetTable;
@@ -38,18 +42,16 @@ public class BudgetUi extends JPanel {
 
         add(tablePanel, BorderLayout.CENTER);
 
-        // Example: Add some dummy expense entries for today
-        addExpense("JAN-24", 3534, 3534);
-        addExpense("JAN-24", 4543, 1500);
-        addExpense("FEB-24", 5464, 5465);
-        addExpense("JAN-24", 2325, 644);
-        addExpense("FEB-24", 2100, 2100);
-        addExpense("JAN-24", 7553, 6800);
-        addExpense("FEB-24", 8876, 3545);
-        addExpense("JAN-24", 87832, 83032);
-        addExpense("FEB-24", 3235, 3035);
-        addExpense("JAN-24", 6534, 2333);
-        addExpense("FEB-24", 5464, 5464);
+        try {
+            ResultSet rs = BudgetDB.getAllBudget(SigninUi.Email);
+            while (rs.next()) {
+                addExpense(rs.getString("MONTH"), rs.getInt("TOTAL_BUDGET"), rs.getInt("EXPENSE"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error in geting budget history", "ERROR",
+                    JOptionPane.ERROR_MESSAGE);
+            System.out.println(e);
+        }
     }
 
     private void addExpense(String month, int budget, int expense) {

@@ -43,25 +43,4 @@ public class ProfileDB {
         }
     }
 
-    public static void setBudget(String email, String month, int budget) throws Exception {
-        String qry = "SELECT * FROM BUDGET WHERE EMAIL='" + email + "' AND MONTH='" + month + "'";
-        ResultSet rs = GlobalConnection.stm.executeQuery(qry);
-        if (rs.next()) {
-            qry = "UPDATE BUDGET SET TOTAL_BUDGET=" + budget + " WHERE EMAIL='" + email + "' AND MONTH='" + month + "'";
-            int val = GlobalConnection.stm.executeUpdate(qry);
-            if (val > 0) {
-                System.out.println("budget updated.");
-            } else {
-                throw new Exception();
-            }
-        } else {
-            qry = "INSERT INTO BUDGET VALUES('" + email + "', '" + month + "', " + budget + "," + 0 + ")";
-            int val = GlobalConnection.stm.executeUpdate(qry);
-            if (val > 0) {
-                System.out.println("budget inserted.");
-            } else {
-                throw new Exception();
-            }
-        }
-    }
 }
