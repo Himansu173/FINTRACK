@@ -101,6 +101,7 @@ public class AddTodayExpense extends JPanel {
         // Add Expense button
         add(new JLabel());
         addButton = new JButton("Add Expense");
+        addButton.setFocusable(false);
         addButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         addButton.addActionListener(new ActionListener() {
             @Override

@@ -34,8 +34,20 @@ public class ExpenseDB {
         return 0;
     }
 
-    public static int getTotalExpense(String email, String startDate, String endSate) throws Exception {
-        String qry = "SELECT SUM(AMOUNT) AS total FROM expense WHERE email = 'himansu@123' AND EXPENSE_DATE <= TO_DATE('" + startDate + "', 'DD-MM-YY') AND EXPENSE_DATE > TO_DATE('" + endSate + "', 'DD-MM-YY')";
+    public static int getTotalExpense(String email, String startDate, String endDate) throws Exception {
+        String qry = "SELECT SUM(AMOUNT) AS total FROM expense WHERE email = '" + email
+                + "' AND EXPENSE_DATE <= TO_DATE('" + startDate + "', 'DD-MM-YY') AND EXPENSE_DATE > TO_DATE('"
+                + endDate + "', 'DD-MM-YY')";
+        ResultSet rs = GlobalConnection.stm.executeQuery(qry);
+        if (rs.next()) {
+            return rs.getInt("TOTAL");
+        }
+        return 0;
+    }
+
+    public static int getTotalExpenseCategoryWise(String email, String startDate, String endDate, String category)
+            throws Exception {
+        String qry = "SELECT SUM(AMOUNT) AS total FROM expense WHERE email = '" + email + "' AND EXPENSE_DATE <= TO_DATE('" + startDate + "', 'DD-MM-YY') AND EXPENSE_DATE > TO_DATE('" + endDate + "', 'DD-MM-YY') AND CATEGORY='" + category + "'";
         ResultSet rs = GlobalConnection.stm.executeQuery(qry);
         if (rs.next()) {
             return rs.getInt("TOTAL");

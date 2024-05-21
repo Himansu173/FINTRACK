@@ -84,10 +84,13 @@ public class ProfileUi extends JPanel {
 
         // Create buttons
         JButton changePasswordButton = new JButton("Change Password");
+        changePasswordButton.setFocusable(false);
         changePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         JButton editProfileButton = new JButton("Edit Profile");
+        editProfileButton.setFocusable(false);
         editProfileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         JButton setBudgetButton = new JButton("Set Budget");
+        setBudgetButton.setFocusable(false);
         setBudgetButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // Add action listener to Change Password button

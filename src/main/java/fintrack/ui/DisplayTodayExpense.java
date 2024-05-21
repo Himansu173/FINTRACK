@@ -33,7 +33,13 @@ public class DisplayTodayExpense extends JPanel {
         tableModel = new DefaultTableModel(new Object[] { "Time", "Amount", "Category" }, 0);
 
         // Create JTable with the model
-        expensesTable = new JTable(tableModel);
+        expensesTable = new JTable(tableModel) {
+            private static final long serialVersionUID = 1L;
+
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
         expensesTable.setDefaultRenderer(Object.class, new CenterRenderer());
         expensesTable.setFont(new Font("Arial", Font.PLAIN, 14));
         expensesTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));

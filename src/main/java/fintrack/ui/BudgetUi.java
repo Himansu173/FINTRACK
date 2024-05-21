@@ -21,7 +21,13 @@ public class BudgetUi extends JPanel {
         tableModel = new DefaultTableModel(new Object[] { "MONTH", "BUDGET", "EXPENSE", "SAVING", "PERFORMANCE" }, 0);
 
         // Create JTable with the model
-        budgetTable = new JTable(tableModel);
+        budgetTable = new JTable(tableModel) {
+            private static final long serialVersionUID = 1L;
+
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
         budgetTable.setDefaultRenderer(Object.class, new CenterRenderer());
         budgetTable.setFont(new Font("Calibri", Font.PLAIN, 18));
         budgetTable.getTableHeader().setFont(new Font("Calibri", Font.BOLD, 19));

@@ -72,6 +72,7 @@ public class FutureExpense extends JPanel {
 
         // Add a button to submit the future expense
         final JButton submitButton = new JButton("Submit");
+        submitButton.setFocusable(false);
         submitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         addExpensePanel.add(submitButton);
         submitButton.addActionListener(new ActionListener() {
@@ -105,8 +106,7 @@ public class FutureExpense extends JPanel {
                     // display updated value
                     MainUi.mainUiContent.removeAll();
                     MainUi.mainUiContent.add(new HomeUi(), BorderLayout.CENTER);
-                    MainUi.mainUiContent.revalidate
-                    ();
+                    MainUi.mainUiContent.revalidate();
                     MainUi.mainUiContent.repaint();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(FutureExpense.this, "Some Error occure!", "Error",
@@ -137,7 +137,13 @@ public class FutureExpense extends JPanel {
         tableModel = new DefaultTableModel(new Object[] { "Date", "Amount", "Category" }, 0);
 
         // Create JTable with the model
-        expensesTable = new JTable(tableModel);
+        expensesTable = new JTable(tableModel) {
+            private static final long serialVersionUID = 1L;
+
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
         expensesTable.setDefaultRenderer(Object.class, new CenterRenderer());
         expensesTable.setFont(new Font("Arial", Font.PLAIN, 14));
         expensesTable.getTableHeader().setFont(new Font("Calibri", Font.BOLD, 14));

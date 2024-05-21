@@ -104,6 +104,7 @@ public class SigninUi extends JPanel {
 
         // Create a sign-in button
         final JButton signInButton = new JButton("Sign In");
+        signInButton.setFocusable(false);
         signInButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         // Set the position and size of the button
         int buttonWidth = 100; // Adjust as needed

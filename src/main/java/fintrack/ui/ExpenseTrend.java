@@ -20,7 +20,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
 
 public class ExpenseTrend extends JPanel {
     private DefaultCategoryDataset dataset;
@@ -142,7 +141,6 @@ public class ExpenseTrend extends JPanel {
                     String day = date.format(formatter);
                     try {
                         expense = ExpenseDB.getTotalExpenseOfTheDay(SigninUi.Email, day);
-                        System.out.println(expense);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, "Some error occure in the expense trend!", "ERROR",
                                 JOptionPane.ERROR_MESSAGE);
@@ -150,7 +148,6 @@ public class ExpenseTrend extends JPanel {
                     }
                     dataset.addValue(expense, "Expense", day);
                 }
-                System.out.println();
                 break;
             case 30:
                 for (int i = 0; i < days / 2; i++) {
@@ -158,7 +155,6 @@ public class ExpenseTrend extends JPanel {
                     String day = date.format(formatter);
                     try {
                         expense = ExpenseDB.getTotalExpense(SigninUi.Email, day, date.minusDays(2).format(formatter));
-                        System.out.println(expense);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, "Some error occure in the expense trend!", "ERROR",
                                 JOptionPane.ERROR_MESSAGE);
@@ -166,7 +162,6 @@ public class ExpenseTrend extends JPanel {
                     }
                     dataset.addValue(expense, "Expense", day);
                 }
-                System.out.println();
                 break;
             case 90:
                 for (int i = 0; i < days / 6; i++) {
@@ -174,7 +169,6 @@ public class ExpenseTrend extends JPanel {
                     String day = date.format(formatter);
                     try {
                         expense = ExpenseDB.getTotalExpense(SigninUi.Email, day, date.minusDays(6).format(formatter));
-                        System.out.println(expense);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, "Some error occure in the expense trend!", "ERROR",
                                 JOptionPane.ERROR_MESSAGE);
@@ -182,7 +176,6 @@ public class ExpenseTrend extends JPanel {
                     }
                     dataset.addValue(expense, "Expense", day);
                 }
-                System.out.println();
                 break;
                 case 180:
                 for (int i = 0; i < days / 12; i++) {
@@ -190,7 +183,6 @@ public class ExpenseTrend extends JPanel {
                     String day = date.format(formatter);
                     try {
                         expense = ExpenseDB.getTotalExpense(SigninUi.Email, day, date.minusDays(12).format(formatter));
-                        System.out.println(expense);
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, "Some error occure in the expense trend!", "ERROR",
                                 JOptionPane.ERROR_MESSAGE);
@@ -198,16 +190,12 @@ public class ExpenseTrend extends JPanel {
                     }
                     dataset.addValue(expense, "Expense", day);
                 }
-                System.out.println();
                 break;
                 case 365:
                 for (int i = 0; i < 12; i++) {
                     LocalDate date = startDate.plusMonths(i);
                     String day = date.format(formatter);
                     try {
-                        System.out.println(date.minusDays(30).format(formatter));
-                        System.out.println(day);
-                        System.out.println();
                         expense = ExpenseDB.getTotalExpense(SigninUi.Email, day, date.minusDays(30).format(formatter));
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, "Some error occure in the expense trend!", "ERROR",
@@ -222,9 +210,5 @@ public class ExpenseTrend extends JPanel {
         }
 
         return dataset;
-    }
-
-    private double generateRandomExpense() {
-        return new Random().nextDouble() * 1000; // Generate random expense amount
     }
 }

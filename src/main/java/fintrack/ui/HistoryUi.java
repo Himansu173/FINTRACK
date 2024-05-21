@@ -21,6 +21,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class HistoryUi extends JPanel {
@@ -91,6 +93,7 @@ public class HistoryUi extends JPanel {
 
         // Add search button
         JButton searchButton = new JButton("Search");
+        searchButton.setFocusable(false);
         searchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         searchButton.setBackground(new Color(63, 184, 39));
         searchButton.addActionListener(new ActionListener() {
@@ -102,72 +105,87 @@ public class HistoryUi extends JPanel {
         checkDatePanel.add(searchButton);
 
         // Create table for displaying history
-        historyTable = new JTable();
+        historyTable = new JTable() {
+            private static final long serialVersionUID = 1L;
+
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
         JScrollPane tableScrollPane = new JScrollPane(historyTable);
         historyPanel.add(tableScrollPane, BorderLayout.CENTER);
 
         add(historyPanel, gbc);
     }
 
+    String[] categories = { "Healthcare", "Food", "Transportation", "Entertainment", "Clothing",
+            "Taxes", "Housing", "Utilities", "Shopping", "Others" };
+    int expense = 0;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yy");
+    LocalDate currentDate = LocalDate.now();
+
     private DefaultCategoryDataset createDataset(String timePeriod) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-        // Sample data for different time periods
         if (timePeriod.equals("Last 7 days")) {
-            dataset.addValue(200, "Expenses", "Healthcare");
-            dataset.addValue(744, "Expenses", "Food");
-            dataset.addValue(353, "Expenses", "Transportation");
-            dataset.addValue(873, "Expenses", "Entertainment");
-            dataset.addValue(150, "Expenses", "Clothing");
-            dataset.addValue(300, "Expenses", "Taxes");
-            dataset.addValue(1200, "Expenses", "Housing");
-            dataset.addValue(114, "Expenses", "Utility");
-            dataset.addValue(179, "Expenses", "Shopping");
-            dataset.addValue(551, "Expenses", "Others");
+            for (int i = 0; i < 10; i++) {
+                try {
+                    expense = ExpenseDB.getTotalExpenseCategoryWise(SigninUi.Email, currentDate.format(formatter),
+                            currentDate.minusDays(6).format(formatter), categories[i]);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Some error occure in the expense history!", "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
+                    System.out.println(e);
+                }
+                dataset.addValue(expense, "Expense", categories[i]);
+            }
         } else if (timePeriod.equals("1 Month")) {
-            dataset.addValue(400, "Expenses", "Healthcare");
-            dataset.addValue(163, "Expenses", "Food");
-            dataset.addValue(654, "Expenses", "Transportation");
-            dataset.addValue(356, "Expenses", "Entertainment");
-            dataset.addValue(200, "Expenses", "Clothing");
-            dataset.addValue(1200, "Expenses", "Taxes");
-            dataset.addValue(4800, "Expenses", "Housing");
-            dataset.addValue(356, "Expenses", "Utility");
-            dataset.addValue(30, "Expenses", "Shopping");
-            dataset.addValue(55, "Expenses", "Others");
+            for (int i = 0; i < 10; i++) {
+                try {
+                    expense = ExpenseDB.getTotalExpenseCategoryWise(SigninUi.Email, currentDate.format(formatter),
+                            currentDate.minusDays(30).format(formatter), categories[i]);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Some error occure in the expense history!", "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
+                    System.out.println(e);
+                }
+                dataset.addValue(expense, "Expense", categories[i]);
+            }
         } else if (timePeriod.equals("3 Months")) {
-            dataset.addValue(1200, "Expenses", "Healthcare");
-            dataset.addValue(543, "Expenses", "Food");
-            dataset.addValue(634, "Expenses", "Transportation");
-            dataset.addValue(643, "Expenses", "Entertainment");
-            dataset.addValue(600, "Expenses", "Clothing");
-            dataset.addValue(3600, "Expenses", "Taxes");
-            dataset.addValue(14400, "Expenses", "Housing");
-            dataset.addValue(342, "Expenses", "Utility");
-            dataset.addValue(330, "Expenses", "Shopping");
-            dataset.addValue(756, "Expenses", "Others");
+            for (int i = 0; i < 10; i++) {
+                try {
+                    expense = ExpenseDB.getTotalExpenseCategoryWise(SigninUi.Email, currentDate.format(formatter),
+                            currentDate.minusDays(90).format(formatter), categories[i]);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Some error occure in the expense history!", "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
+                    System.out.println(e);
+                }
+                dataset.addValue(expense, "Expense", categories[i]);
+            }
         } else if (timePeriod.equals("6 Months")) {
-            dataset.addValue(2400, "Expenses", "Healthcare");
-            dataset.addValue(290, "Expenses", "Food");
-            dataset.addValue(720, "Expenses", "Transportation");
-            dataset.addValue(290, "Expenses", "Entertainment");
-            dataset.addValue(1200, "Expenses", "Clothing");
-            dataset.addValue(7200, "Expenses", "Taxes");
-            dataset.addValue(28800, "Expenses", "Housing");
-            dataset.addValue(650, "Expenses", "Utility");
-            dataset.addValue(150, "Expenses", "Shopping");
-            dataset.addValue(604, "Expenses", "Others");
+            for (int i = 0; i < 10; i++) {
+                try {
+                    expense = ExpenseDB.getTotalExpenseCategoryWise(SigninUi.Email, currentDate.format(formatter),
+                            currentDate.minusDays(180).format(formatter), categories[i]);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Some error occure in the expense history!", "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
+                    System.out.println(e);
+                }
+                dataset.addValue(expense, "Expense", categories[i]);
+            }
         } else if (timePeriod.equals("1 Year")) {
-            dataset.addValue(4800, "Expenses", "Healthcare");
-            dataset.addValue(410, "Expenses", "Food");
-            dataset.addValue(290, "Expenses", "Transportation");
-            dataset.addValue(780, "Expenses", "Entertainment");
-            dataset.addValue(2400, "Expenses", "Clothing");
-            dataset.addValue(14400, "Expenses", "Taxes");
-            dataset.addValue(57600, "Expenses", "Housing");
-            dataset.addValue(370, "Expenses", "Utility");
-            dataset.addValue(310, "Expenses", "Shopping");
-            dataset.addValue(160, "Expenses", "Others");
+            for (int i = 0; i < 10; i++) {
+                try {
+                    expense = ExpenseDB.getTotalExpenseCategoryWise(SigninUi.Email, currentDate.format(formatter),
+                            currentDate.minusMonths(12).format(formatter), categories[i]);
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Some error occure in the expense history!", "ERROR",
+                            JOptionPane.ERROR_MESSAGE);
+                    System.out.println(e);
+                }
+                dataset.addValue(expense, "Expense", categories[i]);
+            }
         }
 
         return dataset;

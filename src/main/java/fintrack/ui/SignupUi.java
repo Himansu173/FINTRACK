@@ -184,6 +184,7 @@ public class SignupUi extends JPanel {
 
         // Create a sign-up button
         JButton signUpButton = new JButton("Sign Up");
+        signUpButton.setFocusable(false);
         signUpButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         // Set the position and size of the button
         signUpButton.setBounds(labelX, labelY + 320, 200, 30);
