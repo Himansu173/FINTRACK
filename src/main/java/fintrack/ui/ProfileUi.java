@@ -2,6 +2,7 @@ package fintrack.ui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
 import org.w3c.dom.events.MouseEvent;
 
@@ -27,7 +28,7 @@ public class ProfileUi extends JPanel {
         // Set up the main profile panel
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 10, 10, 10));
-        setBackground(Color.WHITE);
+        setBackground(new Color(88, 133, 175));
 
         String data[];
         try {
@@ -40,7 +41,7 @@ public class ProfileUi extends JPanel {
 
         // Create the top panel for the user image
         JPanel topPanel = new JPanel();
-        topPanel.setBackground(Color.WHITE);
+        topPanel.setBackground(new Color(88, 133, 175));
         topPanel.setLayout(new BorderLayout());
 
         // Add the user image label at the center
@@ -59,9 +60,10 @@ public class ProfileUi extends JPanel {
 
         // Create a panel for the rating label
         JPanel ratingPanel = new JPanel(new BorderLayout());
-        ratingPanel.setBackground(Color.WHITE);
+        ratingPanel.setBackground(new Color(88, 133, 175));
         ratingPanel.setPreferredSize(new Dimension(400, 30));
         JLabel ratingLabel = new JLabel("Rating: 4.5");
+        ratingLabel.setForeground(Color.WHITE);
         ratingLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         ratingPanel.add(ratingLabel, BorderLayout.EAST);
 
@@ -70,7 +72,7 @@ public class ProfileUi extends JPanel {
 
         // Create the second panel for user profile data
         final JPanel dataPanel = new JPanel();
-        dataPanel.setBackground(Color.WHITE);
+        dataPanel.setBackground(new Color(88, 133, 175));
         dataPanel.setLayout(new GridLayout(3, 2, 5, 5)); // Two columns with 6 rows
         dataPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 
@@ -84,12 +86,15 @@ public class ProfileUi extends JPanel {
 
         // Create buttons
         JButton changePasswordButton = new JButton("Change Password");
+        changePasswordButton.setBackground(new Color(195, 224, 229));
         changePasswordButton.setFocusable(false);
         changePasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         JButton editProfileButton = new JButton("Edit Profile");
+        editProfileButton.setBackground(new Color(195, 224, 229));
         editProfileButton.setFocusable(false);
         editProfileButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         JButton setBudgetButton = new JButton("Set Budget");
+        setBudgetButton.setBackground(new Color(195, 224, 229));
         setBudgetButton.setFocusable(false);
         setBudgetButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
@@ -232,7 +237,7 @@ public class ProfileUi extends JPanel {
 
         // Create a panel for the buttons and add them to it
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setBackground(new Color(88, 133, 175));
         buttonPanel.setBorder(new EmptyBorder(35, 30, 35, 30));
         buttonPanel.add(changePasswordButton);
         buttonPanel.add(editProfileButton);
@@ -247,9 +252,12 @@ public class ProfileUi extends JPanel {
     // Method to add a profile field with label and data to the data panel
     private JLabel addProfileField(JPanel panel, String label, String data) {
         JPanel fieldPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        fieldPanel.setBorder(BorderFactory.createTitledBorder(label));
-        fieldPanel.setBackground(Color.WHITE);
+        fieldPanel.setBackground(new Color(88, 133, 175));
+        TitledBorder titledBorder = BorderFactory.createTitledBorder(label);
+        titledBorder.setTitleColor(Color.WHITE);
+        fieldPanel.setBorder(titledBorder);
         JLabel fieldLabel = new JLabel(data);
+        fieldLabel.setForeground(Color.WHITE);
         fieldPanel.add(fieldLabel);
         panel.add(fieldPanel);
         return fieldLabel;

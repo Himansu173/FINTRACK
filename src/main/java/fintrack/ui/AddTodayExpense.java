@@ -22,18 +22,20 @@ public class AddTodayExpense extends JPanel {
     ResultSet rs;
 
     public AddTodayExpense() {
-        setBackground(Color.white);
+        setBackground(new Color(88, 133, 175));
         setBorder(new EmptyBorder(10, 10, 10, 10));
         setPreferredSize(new Dimension(300, 200));
         setLayout(new GridLayout(7, 2, 10, 10)); // 7 rows, 2 columns, with gaps
         setFont(new Font("Calibri", Font.PLAIN, 14));
         JLabel hederLabel = new JLabel("Add Today's Expenses");
+        hederLabel.setForeground(Color.WHITE);
         hederLabel.setFont(new Font("Calibri", Font.BOLD, 16));
         add(hederLabel);
         // Today's date label
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yy");
         JLabel todayDateLabel = new JLabel(LocalDate.now().format(formatter));
         todayDateLabel.setFont(new Font("Calibri", Font.BOLD, 16));
+        todayDateLabel.setForeground(Color.WHITE);
         add(todayDateLabel);
 
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM-yy");
@@ -61,35 +63,45 @@ public class AddTodayExpense extends JPanel {
         // Total and remaining budget labels
         JLabel totalBudgetLabel = new JLabel("Total Budget: " + totalBudget);
         JLabel remainingBudgetLabel = new JLabel("Remaining Budget: " + ((totalBudget - totalExpense) < 0 ? 0 : (totalBudget - totalExpense)));
+        totalBudgetLabel.setForeground(Color.WHITE);
+        remainingBudgetLabel.setForeground(Color.WHITE);
         add(totalBudgetLabel);
         add(remainingBudgetLabel);
 
         // Amount
         JLabel amountLabel = new JLabel("Amount:");
+        amountLabel.setForeground(Color.WHITE);
         add(amountLabel);
         amountField = new JTextField(10);
+        amountField.setBackground(new Color(195, 224, 229));
         add(amountField);
 
         // Time
         JLabel timeLabel = new JLabel("Time:");
+        timeLabel.setForeground(Color.WHITE);
         add(timeLabel);
         timeField = new JTextField(10);
+        timeField.setBackground(new Color(195, 224, 229));
         add(timeField);
 
         // Category
         JLabel categoryLabel = new JLabel("Category:");
+        categoryLabel.setForeground(Color.WHITE);
         add(categoryLabel);
         String[] categories = { "-- select --", "Healthcare", "Food", "Transportation", "Entertainment", "Clothing",
                 "Taxes", "Housing", "Utilities", "Shopping",
                 "Others" };
         categoryComboBox = new JComboBox<>(categories);
+        categoryComboBox.setBackground(new Color(195, 224, 229));
         categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add(categoryComboBox);
 
         // Description
         JLabel descriptionLabel = new JLabel("Description:");
+        descriptionLabel.setForeground(Color.WHITE);
         add(descriptionLabel);
         descriptionArea = new JTextArea(4, 20); // 4 rows, 20 columns
+        descriptionArea.setBackground(new Color(195, 224, 229));
         descriptionArea.setLineWrap(true);
         descriptionArea.setWrapStyleWord(true);
 
@@ -101,6 +113,8 @@ public class AddTodayExpense extends JPanel {
         // Add Expense button
         add(new JLabel());
         addButton = new JButton("Add Expense");
+        addButton.setBackground(new Color(39, 68, 114));
+        addButton.setForeground(Color.WHITE);
         addButton.setFocusable(false);
         addButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         addButton.addActionListener(new ActionListener() {
@@ -139,6 +153,7 @@ public class AddTodayExpense extends JPanel {
                     } catch (Exception ee) {
                         JOptionPane.showMessageDialog(AddTodayExpense.this, "Some Error occure! Try After Some Time.",
                                 "Error", JOptionPane.ERROR_MESSAGE);
+                                System.out.println(ee);
                         return;
                     }
                     JOptionPane.showMessageDialog(AddTodayExpense.this, "The Expense Recorded.", "Successful",

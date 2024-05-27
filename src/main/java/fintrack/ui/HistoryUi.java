@@ -13,6 +13,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -45,6 +46,7 @@ public class HistoryUi extends JPanel {
         // Create combo box panel
         String[] timePeriods = { "Last 7 days", "1 Month", "3 Months", "6 Months", "1 Year" };
         timePeriodComboBox = new JComboBox<>(timePeriods);
+        timePeriodComboBox.setBackground(new Color(195, 224, 229));
         timePeriodComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
         timePeriodComboBox.addActionListener(new ActionListener() {
             @Override
@@ -54,7 +56,7 @@ public class HistoryUi extends JPanel {
         });
 
         JPanel comboBoxPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        comboBoxPanel.setBackground(Color.WHITE);
+        comboBoxPanel.setBackground(new Color(88, 133, 175));
         comboBoxPanel.add(timePeriodComboBox);
 
         // Create chart panel
@@ -74,13 +76,18 @@ public class HistoryUi extends JPanel {
         gbc.gridy = 1;
         gbc.weighty = 0.25;
         JPanel historyPanel = new JPanel(new BorderLayout());
-        historyPanel.setBackground(Color.WHITE);
-        historyPanel.setBorder(BorderFactory.createTitledBorder("Expense History"));
+        historyPanel.setBackground(new Color(88, 133, 175));
+        TitledBorder titledBorder = BorderFactory.createTitledBorder("Expense History");
+        titledBorder.setTitleColor(Color.WHITE); // Set the title color to white
+
+        // Set the titled border with the custom title color to the historyPanel
+        historyPanel.setBorder(titledBorder);
 
         // Add label "Check expense history" and date chooser
         JPanel checkDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        checkDatePanel.setBackground(Color.WHITE);
+        checkDatePanel.setBackground(new Color(88, 133, 175));
         JLabel checkLabel = new JLabel("Check Expense History");
+        checkLabel.setForeground(Color.WHITE);
         checkDatePanel.add(checkLabel);
         dateChooser = new JDateChooser();
         dateChooser.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -93,9 +100,10 @@ public class HistoryUi extends JPanel {
 
         // Add search button
         JButton searchButton = new JButton("Search");
+        searchButton.setForeground(Color.WHITE);
         searchButton.setFocusable(false);
         searchButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        searchButton.setBackground(new Color(63, 184, 39));
+        searchButton.setBackground(new Color(39, 68, 114));
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,6 +121,7 @@ public class HistoryUi extends JPanel {
             };
         };
         JScrollPane tableScrollPane = new JScrollPane(historyTable);
+        tableScrollPane.getViewport().setBackground(new Color(88, 133, 175));
         historyPanel.add(tableScrollPane, BorderLayout.CENTER);
 
         add(historyPanel, gbc);
@@ -202,11 +211,24 @@ public class HistoryUi extends JPanel {
                 true,
                 false);
 
+        chart.setBackgroundPaint(new Color(88, 133, 175));
         // Set custom fonts for title and axis labels
+        Font labelFont = new Font("Calibri", Font.PLAIN, 16);
         chart.getTitle().setFont(new Font("Calibri", Font.BOLD, 20));
+        chart.getTitle().setPaint(Color.WHITE); // Set title color to white
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
-        plot.getDomainAxis().setLabelFont(new Font("Calibri", Font.PLAIN, 16));
-        plot.getRangeAxis().setLabelFont(new Font("Calibri", Font.PLAIN, 16));
+        plot.getDomainAxis().setLabelFont(labelFont);
+        plot.setBackgroundPaint(new Color(88, 133, 175));
+        plot.getDomainAxis().setLabelPaint(Color.WHITE); // Set domain axis label color to white
+        plot.getDomainAxis().setTickLabelFont(labelFont);
+        plot.getDomainAxis().setTickLabelPaint(Color.WHITE); // Set domain axis tick label color to white
+        plot.getRangeAxis().setLabelFont(labelFont);
+        plot.getRangeAxis().setLabelPaint(Color.WHITE); // Set range axis label color to white
+        plot.getRangeAxis().setTickLabelFont(labelFont);
+        plot.getRangeAxis().setTickLabelPaint(Color.WHITE); // Set range axis tick label color to white
+
+        chart.getLegend().setItemPaint(Color.WHITE);
+        chart.getLegend().setBackgroundPaint(new Color(88, 133, 175));
 
         return chart;
     }
@@ -228,9 +250,9 @@ public class HistoryUi extends JPanel {
                 });
         plot.setRenderer(renderer);
 
-        plot.setBackgroundPaint(Color.WHITE);
-        plot.setDomainGridlinePaint(Color.BLACK);
-        plot.setRangeGridlinePaint(Color.BLACK);
+        plot.setBackgroundPaint(new Color(88, 133, 175));
+        plot.setDomainGridlinePaint(Color.WHITE);
+        plot.setRangeGridlinePaint(Color.WHITE);
     }
 
     private void updateDataset(String timePeriod) {
@@ -301,9 +323,9 @@ public class HistoryUi extends JPanel {
 
                 // Alternate row colors
                 if (row % 2 == 0) {
-                    c.setBackground(Color.WHITE);
+                    c.setBackground(new Color(195, 224, 229));
                 } else {
-                    c.setBackground(new Color(240, 240, 240));
+                    c.setBackground(new Color(88, 133, 175));
                 }
 
                 // Center align text

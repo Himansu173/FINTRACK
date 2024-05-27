@@ -16,6 +16,7 @@ public class BudgetUi extends JPanel {
 
     public BudgetUi() {
         setLayout(new BorderLayout());
+        setBackground(new Color(88, 133, 175));
 
         // Create table model with columns for time, amount, and category
         tableModel = new DefaultTableModel(new Object[] { "MONTH", "BUDGET", "EXPENSE", "SAVING", "PERFORMANCE" }, 0);
@@ -38,12 +39,13 @@ public class BudgetUi extends JPanel {
         budgetTable.setBorder(null); // Remove table border
         budgetTable.getTableHeader().setBorder(null); // Remove header border
         JScrollPane scrollPane = new JScrollPane(budgetTable);
+        scrollPane.getViewport().setBackground(new Color(88, 133, 175));
         scrollPane.setBorder(null); // Remove scroll pane border
 
         // Wrap the scroll pane inside another panel with EmptyBorder
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setBorder(new EmptyBorder(10, 10, 10, 10)); // Add 10px gap around the table
-        tablePanel.setBackground(Color.WHITE);
+        tablePanel.setBackground(new Color(88, 133, 175));
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
         add(tablePanel, BorderLayout.CENTER);
@@ -92,8 +94,8 @@ public class BudgetUi extends JPanel {
 
     // Custom TableCellRenderer to center align cell contents
     private class CenterRenderer extends DefaultTableCellRenderer {
-        private Color color1 = Color.WHITE;
-        private Color color2 = new Color(240, 240, 240); // Light gray
+        private Color color1 = new Color(195, 224, 229);
+        private Color color2 = new Color(88, 133, 175);
 
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                 boolean hasFocus, int row, int column) {

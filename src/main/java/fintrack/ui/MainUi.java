@@ -1,15 +1,12 @@
 package fintrack.ui;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import fintrack.App;
 import fintrack.db.ProfileDB;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -35,7 +32,7 @@ public class MainUi extends JPanel {
                 // Create side bar menu panel
                 JPanel sideBarMenu = new JPanel();
                 sideBarMenu.setLayout(new BoxLayout(sideBarMenu, BoxLayout.Y_AXIS));
-                sideBarMenu.setBackground(Color.WHITE);
+                sideBarMenu.setBackground(new Color(88, 133, 175));
                 sideBarMenu.setBorder(BorderFactory.createEmptyBorder(125, 25, 0, 0));
 
                 // Increase width of side bar me
@@ -79,7 +76,7 @@ public class MainUi extends JPanel {
 
                 // Create panel for profile image label
                 JPanel profilePanel = new JPanel(new GridBagLayout());
-                profilePanel.setBackground(Color.WHITE);
+                profilePanel.setBackground(new Color(88, 133, 175));
                 profilePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
                 // Create constraints for profileImageLabel
@@ -87,7 +84,7 @@ public class MainUi extends JPanel {
                 powerButtonConstraints.gridx = 1;
                 powerButtonConstraints.gridy = 0;
                 powerButtonConstraints.anchor = GridBagConstraints.NORTHEAST; // Align to top-right corner
-                powerButtonConstraints.insets = new Insets(7, 0, 0, 0);
+                powerButtonConstraints.insets = new Insets(9, 0, 0, 0);
 
                 // Create a power button label with icon
                 JLabel powerButtonLabel = new JLabel(
@@ -135,16 +132,16 @@ public class MainUi extends JPanel {
                 // Create panel to hold nameLabel and profilePanel
                 JPanel topPanel = new JPanel(new BorderLayout());
                 topPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-                topPanel.setBackground(Color.WHITE);
+                topPanel.setBackground(new Color(88, 133, 175));
                 topPanel.add(logoLabel, BorderLayout.WEST);
                 topPanel.add(nameLabel, BorderLayout.CENTER);
                 topPanel.add(profilePanel, BorderLayout.EAST);
 
                 // Create dashboard content panel
                 mainUiContent = new JPanel(new BorderLayout());
-                mainUiContent.setBackground(Color.LIGHT_GRAY);
+                mainUiContent.setBackground(new Color(65, 114, 159));
                 mainUiContent.setBorder(BorderFactory.createCompoundBorder(
-                                BorderFactory.createLineBorder(Color.WHITE),
+                                BorderFactory.createLineBorder(new Color(65, 114, 159)),
                                 BorderFactory.createEmptyBorder(10, 10, 0, 0)));
                 mainUiContent.add(new HomeUi(), BorderLayout.CENTER);
 

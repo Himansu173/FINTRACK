@@ -29,21 +29,23 @@ public class SigninUi extends JPanel {
         setSize(screenSize);
 
         // Create a main panel
-        JPanel mainPanel = new JPanel() {
-            // Override the paintComponent method to paint the background image
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                // Load your background image (replace "path_to_your_image" with the actual
-                // path)
-                ImageIcon backgroundImage = new ImageIcon(new File("src//main//resource//bg.jpg").getAbsolutePath());
-                // Draw the background image
-                g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), null);
-            }
-        };
+        JPanel mainPanel = new JPanel();
+        //  {
+        //     // Override the paintComponent method to paint the background image
+        //     @Override
+        //     protected void paintComponent(Graphics g) {
+        //         super.paintComponent(g);
+        //         // Load your background image (replace "path_to_your_image" with the actual
+        //         // path)
+        //         ImageIcon backgroundImage = new ImageIcon(new File("src//main//resource//bg.jpg").getAbsolutePath());
+        //         // Draw the background image
+        //         g.drawImage(backgroundImage.getImage(), 0, 0, getWidth(), getHeight(), null);
+        //     }
+        // };
 
         // Set layout to null to make the main panel cover the whole area
         mainPanel.setLayout(null);
+        mainPanel.setBackground(new Color(39, 68, 114));
 
         // Set the size of the mainPanel to be the size of the screen
         mainPanel.setSize(screenSize);
@@ -56,12 +58,13 @@ public class SigninUi extends JPanel {
 
         // Create a content panel
         JPanel contentPanel = new JPanel();
-        contentPanel.setBackground(new Color(0, 0, 0, 0)); // Semi-transparent white background
+        contentPanel.setBackground(new Color(39, 68, 114)); // Semi-transparent white background
         contentPanel.setBounds(contentX, contentY, contentWidth, contentHeight);
         contentPanel.setLayout(null); // Set layout to null to precisely position components
 
         // Create a label for Username or Email address
         JLabel usernameLabel = new JLabel("Email");
+        usernameLabel.setForeground(Color.WHITE);
         // Set the position and size of the label
         int labelWidth = 80; // Adjust as needed
         int labelHeight = 30; // Adjust as needed
@@ -74,7 +77,7 @@ public class SigninUi extends JPanel {
 
         // Create a text field for Username
         usernameTextField = new JTextField();
-        // Set the position and size of the text field
+        usernameTextField.setBackground(new Color(195, 224, 229));
         int fieldWidth = 200; // Adjust as needed
         int fieldHeight = 30; // Adjust as needed
         int fieldX = labelX + labelWidth;
@@ -86,6 +89,7 @@ public class SigninUi extends JPanel {
 
         // Create a label for Password
         JLabel passwordLabel = new JLabel("Password");
+        passwordLabel.setForeground(Color.WHITE);
         // Set the position and size of the label
         passwordLabel.setBounds(labelX, labelY + 40, labelWidth, labelHeight);
 
@@ -94,7 +98,7 @@ public class SigninUi extends JPanel {
 
         // Create a password field for Password
         passwordField = new JPasswordField();
-        // Set the position and size of the password field
+        passwordField.setBackground(new Color(195, 224, 229));
         int passwordFieldX = fieldX;
         int passwordFieldY = fieldY + 40; // Below the username field with some spacing
         passwordField.setBounds(passwordFieldX, passwordFieldY, fieldWidth, fieldHeight);
@@ -106,6 +110,7 @@ public class SigninUi extends JPanel {
         final JButton signInButton = new JButton("Sign In");
         signInButton.setFocusable(false);
         signInButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        signInButton.setBackground(new Color(195, 224, 229));
         // Set the position and size of the button
         int buttonWidth = 100; // Adjust as needed
         int buttonHeight = 30; // Adjust as needed
@@ -140,6 +145,7 @@ public class SigninUi extends JPanel {
 
         // Create a label for "Do not have an account?"
         JLabel signUpLabel = new JLabel("Do not have an account?");
+        signUpLabel.setForeground(Color.WHITE);
         // Set the position and size of the label
         int signUpLabelWidth = 160; // Adjust as needed
         int signUpLabelHeight = 20; // Adjust as needed
@@ -152,7 +158,7 @@ public class SigninUi extends JPanel {
 
         // Create a sign-up label
         final JLabel signUpButton = new JLabel("Sign Up");
-        signUpButton.setForeground(Color.BLUE); // Change color to indicate it's clickable
+        signUpButton.setForeground(new Color(255,255,255)); // Change color to indicate it's clickable
         signUpButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Change cursor to hand when hovering
         signUpButton.addMouseListener(new MouseAdapter() {
             @Override

@@ -37,31 +37,42 @@ public class FutureExpense extends JPanel {
 
         // Create panel for adding future expenses
         JPanel addExpensePanel = new JPanel(new GridLayout(5, 2, 7, 7)); // 5 rows, 2 columns, with gaps
-        addExpensePanel.setBackground(Color.WHITE);
+        addExpensePanel.setBackground(new Color(88, 133, 175));
         addExpensePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         // Add label for message
         JLabel messageLabel = new JLabel("Add Future Expense");
+        messageLabel.setForeground(Color.WHITE);
         messageLabel.setFont(new Font("Calibri", Font.BOLD, 16));
         addExpensePanel.add(messageLabel);
         addExpensePanel.add(new JLabel()); // placeholder for the second column
 
         // Add components to the addExpensePanel
-        addExpensePanel.add(new JLabel("Future Date:"));
+        JLabel futuredateLabel=new JLabel("Future Date:");
+        futuredateLabel.setForeground(Color.WHITE);
+        addExpensePanel.add(futuredateLabel);
         dateChooser = new JDateChooser();
         calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, 1); // Add 1 day to the current date
         dateChooser.setMinSelectableDate(calendar.getTime()); // Set minimum selectable date to tomorrow's date
+        dateChooser.setBackground(new Color(195, 224, 229));
         addExpensePanel.add(dateChooser);
 
-        addExpensePanel.add(new JLabel("Amount:"));
+        JLabel amountLabel=new JLabel("Amount:");
+        amountLabel.setForeground(Color.WHITE);
+        addExpensePanel.add(amountLabel);
+
         amountField = new JTextField();
+        amountField.setBackground(new Color(195, 224, 229));
         addExpensePanel.add(amountField);
 
-        addExpensePanel.add(new JLabel("Category:"));
+        JLabel categorylabel=new JLabel("Category:");
+        categorylabel.setForeground(Color.WHITE);
+        addExpensePanel.add(categorylabel);
         String[] categories = { "-- select --", "Healthcare", "Food", "Transportation", "Entertainment", "Clothing",
                 "Taxes", "Housing", "Utilities", "Shopping",
                 "Others" };
         categoryComboBox = new JComboBox<>(categories);
+        categoryComboBox.setBackground(new Color(195, 224, 229));
         categoryComboBox.setCursor(new Cursor(Cursor.HAND_CURSOR));
         addExpensePanel.add(categoryComboBox);
 
@@ -72,6 +83,8 @@ public class FutureExpense extends JPanel {
 
         // Add a button to submit the future expense
         final JButton submitButton = new JButton("Submit");
+        submitButton.setForeground(Color.WHITE);
+        submitButton.setBackground(new Color(39, 68, 114));
         submitButton.setFocusable(false);
         submitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         addExpensePanel.add(submitButton);
@@ -129,9 +142,10 @@ public class FutureExpense extends JPanel {
         JPanel futureExpensesPanel = new JPanel(new BorderLayout());
         futureExpensesPanel.setBorder(emptyBorder);
         JLabel futureExpensesLabel = new JLabel("Future Expenses");
+        futureExpensesLabel.setForeground(Color.WHITE);
         futureExpensesLabel.setFont(new Font("Calibri", Font.BOLD, 16));
         futureExpensesPanel.add(futureExpensesLabel, BorderLayout.NORTH);
-        futureExpensesPanel.setBackground(Color.WHITE);
+        futureExpensesPanel.setBackground(new Color(88, 133, 175));
         futureExpensesPanel.setBorder(new EmptyBorder(0, 10, 0, 10));
 
         tableModel = new DefaultTableModel(new Object[] { "Date", "Amount", "Category" }, 0);
@@ -153,6 +167,7 @@ public class FutureExpense extends JPanel {
         expensesTable.setBorder(null); // Remove table border
         expensesTable.getTableHeader().setBorder(null); // Remove header border
         JScrollPane scrollPane = new JScrollPane(expensesTable);
+        scrollPane.getViewport().setBackground(new Color(88, 133, 175));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setBorder(null); // Remove scroll pane border
         futureExpensesPanel.add(scrollPane, BorderLayout.CENTER);
@@ -274,8 +289,8 @@ public class FutureExpense extends JPanel {
 
     // Custom TableCellRenderer to center align cell contents
     private class CenterRenderer extends DefaultTableCellRenderer {
-        private Color color1 = Color.WHITE;
-        private Color color2 = new Color(240, 240, 240); // Light gray
+        private Color color1 = new Color(195, 224, 229);
+        private Color color2 = new Color(88, 133, 175);
 
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                 boolean hasFocus, int row, int column) {

@@ -16,7 +16,7 @@ public class App {
         frame = new JFrame("FINTRACK");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setSize(600, 400);
-        frame.setBackground(Color.MAGENTA);
+        frame.setBackground(new Color(39, 68, 114));
         frame.setFont(new Font("Calibri", Font.PLAIN, 14));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setMinimumSize(new Dimension(1000, 700));

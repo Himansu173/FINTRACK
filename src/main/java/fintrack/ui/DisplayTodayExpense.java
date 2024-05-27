@@ -22,9 +22,10 @@ public class DisplayTodayExpense extends JPanel {
 
         // Create header panel
         JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        headerPanel.setBackground(Color.WHITE);
+        headerPanel.setBackground(new Color(88, 133, 175));
         headerPanel.setBorder(new EmptyBorder(10, 10, 5, 10));
         JLabel headerLabel = new JLabel("Today's Expenses");
+        headerLabel.setForeground(Color.WHITE);
         headerLabel.setFont(new Font("Calibri", Font.BOLD, 16));
         headerPanel.add(headerLabel);
         add(headerPanel, BorderLayout.NORTH);
@@ -49,13 +50,14 @@ public class DisplayTodayExpense extends JPanel {
         expensesTable.setBorder(null); // Remove table border
         expensesTable.getTableHeader().setBorder(null); // Remove header border
         JScrollPane scrollPane = new JScrollPane(expensesTable);
+        scrollPane.getViewport().setBackground(new Color(88, 133, 175));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setBorder(null); // Remove scroll pane border
 
         // Wrap the scroll pane inside another panel with EmptyBorder
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setBorder(new EmptyBorder(0, 10, 0, 10)); // Add 10px gap around the table
-        tablePanel.setBackground(Color.WHITE);
+        tablePanel.setBackground(new Color(88, 133, 175));
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
         add(tablePanel, BorderLayout.CENTER);
@@ -82,8 +84,8 @@ public class DisplayTodayExpense extends JPanel {
 
     // Custom TableCellRenderer to center align cell contents
     private class CenterRenderer extends DefaultTableCellRenderer {
-        private Color color1 = Color.WHITE;
-        private Color color2 = new Color(240, 240, 240); // Light gray
+        private Color color1 = new Color(195, 224, 229);
+        private Color color2 = new Color(88, 133, 175);
 
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                 boolean hasFocus, int row, int column) {
