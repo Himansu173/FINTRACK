@@ -116,18 +116,18 @@ public class MainUi extends JPanel {
 
                 // Load the image for the logo
                 ImageIcon logoIcon = new ImageIcon(
-                                new ImageIcon(new File("src//main//resource//maleProfile.png").getAbsolutePath())
-                                                .getImage().getScaledInstance(55, 55, Image.SCALE_SMOOTH));
+                                new ImageIcon(new File("src//main//resource//logo.png").getAbsolutePath())
+                                                .getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
 
                 // Create menu labels with icons
                 JLabel logoLabel = new JLabel(logoIcon);
 
                 // Create label for person's name
                 nameLabel = new JLabel("Hello, " + data[0]);
-                nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 13, 0, 0)); // Add left inset
+                nameLabel.setForeground(Color.WHITE);
+                nameLabel.setBorder(BorderFactory.createEmptyBorder(0, 17, 0, 0)); // Add left inset
                 Font font = nameLabel.getFont();
                 nameLabel.setFont(new Font(font.getName(), Font.BOLD, 23));
-                nameLabel.setForeground(Color.BLACK);
 
                 // Create panel to hold nameLabel and profilePanel
                 JPanel topPanel = new JPanel(new BorderLayout());

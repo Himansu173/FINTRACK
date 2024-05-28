@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import fintrack.App;
 
@@ -14,21 +15,21 @@ public class WelcomeUi extends JPanel {
 
     public WelcomeUi() {
         // Load logo image
-        logoImage = new ImageIcon("");
+        logoImage = new ImageIcon(new File("src//main//resource//logo.png").getAbsolutePath());
 
         // Create and configure the Fintrack label
-        fintrackLabel = new JLabel("Fintrack");
-        fintrackLabel.setFont(new Font("Arial", Font.BOLD, 90)); // Adjust font and size as needed
-        fintrackLabel.setForeground(new Color(255, 255, 255)); // Adjust color as needed
+        fintrackLabel = new JLabel("FINTRACK");
+        fintrackLabel.setFont(new Font("Arial", Font.BOLD, 80)); // Adjust font and size as needed
+        fintrackLabel.setForeground(new Color(255, 127, 39));
         fintrackLabel.setHorizontalAlignment(JLabel.CENTER); // Center the text horizontally
-        fintrackLabel.setVerticalAlignment(JLabel.CENTER); // Center the text vertically
+        fintrackLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 150, 0)); // Add left inset
 
         // Set layout for the panel
         setLayout(new BorderLayout());
 
         // Add logo and Fintrack label to the panel
-        add(new JLabel(logoImage), BorderLayout.NORTH); // Logo above the Fintrack label
-        add(fintrackLabel, BorderLayout.CENTER); // Fintrack label at the center
+        add(new JLabel(logoImage), BorderLayout.CENTER); // Logo above the Fintrack label
+        add(fintrackLabel,BorderLayout.SOUTH); 
         setBackground(new Color(39, 68, 114));
 
         // Show welcome panel for 3 seconds then switch to sign in panel

@@ -158,14 +158,18 @@ public class SignupUi extends JPanel {
         maleRadioButton = new JRadioButton("Male");
         maleRadioButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         maleRadioButton.setBounds(fieldX, labelY + 200, 80, 20);
-        maleRadioButton.setBackground(new Color(195, 224, 229));
+        maleRadioButton.setBackground(new Color(39, 68, 114));
+        maleRadioButton.setForeground(Color.WHITE);
+        maleRadioButton.setFocusable(false);
         contentPanel.add(maleRadioButton);
         
         femaleRadioButton = new JRadioButton("Female");
         femaleRadioButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        femaleRadioButton.setFocusable(false);
         // femaleRadioButton.setBackground(new Color(0, 0, 0, 0));
         femaleRadioButton.setBounds(fieldX + 80, labelY + 200, 100, 20);
-        femaleRadioButton.setBackground(new Color(195, 224, 229));
+        femaleRadioButton.setBackground(new Color(39, 68, 114));
+        femaleRadioButton.setForeground(Color.WHITE);
         contentPanel.add(femaleRadioButton);
 
         // Create a button group for radio buttons

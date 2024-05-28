@@ -3,6 +3,7 @@ package fintrack;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.*;
 
@@ -18,6 +19,8 @@ public class App {
         frame.setSize(600, 400);
         frame.setBackground(new Color(39, 68, 114));
         frame.setFont(new Font("Calibri", Font.PLAIN, 14));
+        ImageIcon logoIcon = new ImageIcon(new File("src//main//resource//logo.png").getAbsolutePath());
+        frame.setIconImage(logoIcon.getImage());
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setMinimumSize(new Dimension(1000, 700));
 
